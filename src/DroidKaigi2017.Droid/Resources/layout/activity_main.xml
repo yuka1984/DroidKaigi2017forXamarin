@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    style="@style/BaseToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+      <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/logo" />
+
+      <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_toEndOf="@+id/logo"
+        android:layout_toRightOf="@+id/logo"
+        android:text="@string/sessions"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_20sp"
+        android:textStyle="bold" />
+
+    </RelativeLayout>
+  </android.support.v7.widget.Toolbar>
+
+  <FrameLayout
+    android:id="@+id/content_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/bottom_nav"
+    android:layout_below="@id/toolbar" />
+
+  <android.support.design.widget.BottomNavigationView
+    android:id="@+id/bottom_nav"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_nav_height"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="start"
+    android:background="@color/nav_background"
+    android:elevation="@dimen/elevation_4dp"
+    app:elevation="@dimen/elevation_4dp"
+    app:itemIconTint="@color/bottom_navigation_item"
+    app:itemTextColor="@color/bottom_navigation_item"
+    app:menu="@menu/bottom_nav"
+    tools:targetApi="lollipop" />
+
+</RelativeLayout>

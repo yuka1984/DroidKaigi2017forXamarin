@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+  <declare-styleable name="SettingSwitchRow">
+    <attr name="settingTitle" format="string" />
+    <attr name="settingDescription" format="string" />
+  </declare-styleable>
+
+  <declare-styleable name="InfoRow">
+    <attr name="infoTitle" format="string" />
+    <attr name="infoDescription" format="string" />
+  </declare-styleable>
+
+  <declare-styleable name="FeedbackRankingView">
+    <attr name="rankingMaxSize" format="integer" />
+    <attr name="rankingLabelStart" format="string" />
+    <attr name="rankingLabelEnd" format="string" />
+  </declare-styleable>
+
+
+</resources>

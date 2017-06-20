@@ -1,0 +1,181 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+  <!--==================== Text ====================-->
+  <style name="TextTitle">
+    <item name="android:textSize">@dimen/text_20sp</item>
+    <item name="fontPath">@string/font_noto_cjk_medium</item>
+  </style>
+
+  <style name="TextSubheading">
+    <item name="android:textSize">@dimen/text_16sp</item>
+    <item name="fontPath">@string/font_noto_cjk_regular</item>
+  </style>
+
+  <style name="TextBody2">
+    <item name="android:textSize">@dimen/text_14sp</item>
+    <item name="fontPath">@string/font_noto_cjk_medium</item>
+  </style>
+
+  <style name="TextBody1">
+    <item name="android:textSize">@dimen/text_14sp</item>
+    <item name="fontPath">@string/font_noto_cjk_regular</item>
+  </style>
+
+  <style name="TextCaption">
+    <item name="android:textSize">@dimen/text_12sp</item>
+    <item name="fontPath">@string/font_noto_cjk_regular</item>
+  </style>
+
+  <style name="TextCaption.Purple">
+    <item name="android:textColor">@color/purple</item>
+  </style>
+
+
+  <!--==================== Clicker ====================-->
+  <style name="ClickCover">
+    <item name="android:background">@drawable/clickable</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:clickable">true</item>
+  </style>
+
+
+  <!--==================== Button ====================-->
+  <style name="Button" parent="Widget.AppCompat.Button">
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="fontPath">@string/font_noto_cjk_medium</item>
+    <item name="android:gravity">center</item>
+    <item name="android:padding">@dimen/space_16dp</item>
+    <item name="android:textSize">@dimen/text_16sp</item>
+  </style>
+
+  <style name="Button.Purple">
+    <item name="android:layout_width">match_parent</item>
+    <item name="backgroundTint">@color/purple</item>
+    <item name="android:textColor">@color/white</item>
+  </style>
+
+  <style name="Button.Grey">
+    <item name="android:layout_width">match_parent</item>
+    <item name="backgroundTint">@color/grey200</item>
+    <item name="android:textColor">@color/grey600</item>
+  </style>
+
+  <style name="Button.Accent">
+    <item name="android:layout_width">match_parent</item>
+    <item name="backgroundTint">@color/accent</item>
+    <item name="android:textColor">@color/white</item>
+  </style>
+
+
+  <!--==================== EditText ====================-->
+  <style name="BaseEditText">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textAppearance">@style/TextSubheading</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:textColorHint">@color/grey600</item>
+  </style>
+
+
+  <!--==================== Border ====================-->
+  <style name="Border">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">@dimen/line_1dp</item>
+    <item name="android:background">@color/grey200</item>
+  </style>
+
+  <style name="Border.Vertical">
+    <item name="android:layout_width">@dimen/border_1dp</item>
+    <item name="android:layout_height">match_parent</item>
+  </style>
+
+
+  <!-- Component -->
+  <style name="BaseRecyclerView">
+    <item name="android:clipToPadding">false</item>
+    <item name="android:fadingEdge">none</item>
+    <item name="android:scrollbarStyle">outsideOverlay</item>
+    <item name="android:scrollingCache">false</item>
+  </style>
+
+  <style name="DialogWindowAnimation">
+    <item name="android:windowEnterAnimation">@anim/dialog_fade_enter</item>
+    <item name="android:windowExitAnimation">@anim/dialog_fade_exit</item>
+  </style>
+
+  <style name="TabLayout">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:background">@color/theme</item>
+    <item name="android:elevation" tools:targetApi="lollipop">@dimen/elevation_2dp</item>
+    <item name="elevation">@dimen/elevation_2dp</item>
+    <item name="tabIndicatorColor">@color/accent</item>
+    <item name="tabTextColor">@color/white_alpha_40</item>
+  </style>
+
+
+  <!--==================== Toolbar & Actionbar ====================-->
+  <style name="BaseToolbar" parent="@style/Widget.AppCompat.Toolbar">
+    <!-- Don't change to `@color/toolbar_background`. This is workaround for a bug on API 16. -->
+    <item name="android:background">@drawable/bg_toolbar</item>
+    <item name="android:elevation" tools:targetApi="lollipop">@dimen/elevation_2dp</item>
+    <item name="android:theme">@style/ToolbarTheme</item>
+    <item name="elevation">@dimen/elevation_2dp</item>
+    <item name="actionMenuTextColor">@color/toolbar_text</item>
+    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    <item name="theme">@style/ToolbarTheme</item>
+    <item name="contentInsetStartWithNavigation">0dp</item>
+  </style>
+
+  <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <item name="android:textColorPrimary">@color/toolbar_text</item>
+    <item name="android:textColorSecondary">@color/toolbar_text</item>
+    <item name="colorControlActivated">@color/white</item>
+    <item name="searchViewStyle">@style/SearchViewStyle</item>
+  </style>
+
+  <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+    <item name="queryBackground">@null</item>
+    <item name="submitBackground">@null</item>
+  </style>
+
+  <style name="BaseActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+    <!-- Don't change to `@color/toolbar_background`. This is workaround for a bug on API 16. -->
+    <item name="android:background">@drawable/bg_toolbar</item>
+    <item name="android:titleTextStyle">@style/BaseActionBarTitle</item>
+    <item name="android:subtitleTextStyle">@style/BaseActionBarSubtitle</item>
+    <item name="android:elevation" tools:targetApi="lollipop">@dimen/elevation_2dp</item>
+    <!-- support library compatibility -->
+    <!-- Don't change to `@color/toolbar_background`. This is workaround for a bug on API 16. -->
+    <item name="background">@drawable/bg_toolbar</item>
+    <item name="titleTextStyle">@style/BaseActionBarTitle</item>
+    <item name="subtitleTextStyle">@style/BaseActionBarSubtitle</item>
+    <item name="elevation">@dimen/elevation_2dp</item>
+    <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+  </style>
+
+  <style name="BaseActionBarTitle">
+    <item name="android:textColor">@color/toolbar_text</item>
+    <item name="android:textSize">@dimen/text_20sp</item>
+    <item name="fontPath">@string/font_noto_cjk_medium</item>
+  </style>
+
+  <style name="BaseActionBarSubtitle">
+    <item name="android:textColor">@color/toolbar_sub_text</item>
+    <item name="android:textSize">@dimen/text_12sp</item>
+    <item name="fontPath">@string/font_noto_cjk_medium</item>
+  </style>
+
+
+  <!--==================== Card ====================-->
+  <style name="BaseCardView">
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="cardBackgroundColor">@color/white</item>
+    <item name="cardUseCompatPadding">true</item>
+    <item name="cardCornerRadius">@dimen/radius_4dp</item>
+  </style>
+
+</resources>

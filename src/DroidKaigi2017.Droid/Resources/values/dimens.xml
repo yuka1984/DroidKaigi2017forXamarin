@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+  <!-- space -->
+  <dimen name="space_4dp">4dp</dimen>
+  <dimen name="space_8dp">8dp</dimen>
+  <dimen name="space_12dp">12dp</dimen>
+  <dimen name="space_16dp">16dp</dimen>
+  <dimen name="space_24dp">24dp</dimen>
+  <dimen name="space_32dp">32dp</dimen>
+  <dimen name="space_minus_4dp">-4dp</dimen>
+
+  <dimen name="icon_space_4dp">4dp</dimen>
+  <dimen name="icon_space_8dp">8dp</dimen>
+
+  <dimen name="line_space_1dp">1dp</dimen>
+  <dimen name="line_space_2dp">2dp</dimen>
+
+
+  <!-- Text -->
+  <dimen name="text_12sp">12sp</dimen>
+  <dimen name="text_14sp">14sp</dimen>
+  <dimen name="text_16sp">16sp</dimen>
+  <dimen name="text_20sp">20sp</dimen>
+  <dimen name="text_24sp">24sp</dimen>
+  <dimen name="text_drawable_12dp">12dp</dimen>
+
+  <!-- Line -->
+  <dimen name="line_1dp">1dp</dimen>
+  <dimen name="line_2dp">2dp</dimen>
+
+
+  <!-- Border -->
+  <dimen name="border_1dp">1dp</dimen>
+
+
+  <!-- Elevation -->
+  <dimen name="elevation_2dp">2dp</dimen>
+  <dimen name="elevation_4dp">4dp</dimen>
+  <dimen name="elevation_6dp">6dp</dimen>
+
+
+  <!-- Radius -->
+  <dimen name="radius_4dp">4dp</dimen>
+
+  <!-- icon -->
+  <dimen name="icon_36dp">36dp</dimen>
+  <dimen name="icon_48dp">48dp</dimen>
+
+  <!-- Component -->
+  <dimen name="bottom_nav_height">56dp</dimen>
+
+  <dimen name="tag_radius">4dp</dimen>
+  <dimen name="tag_padding_horizontal">8dp</dimen>
+  <dimen name="tag_padding_vertical">4dp</dimen>
+  <dimen name="tag_border_width">1dp</dimen>
+
+
+  <!-- Session -->
+  <dimen name="session_table_header_row_height">36dp</dimen>
+  <dimen name="session_table_cell_text_margin">2dp</dimen>
+  <dimen name="session_table_border_width">1dp</dimen>
+  <dimen name="session_table_cell_title_text_size">10sp</dimen>
+  <dimen name="session_table_min_width">670dp</dimen>
+
+  <dimen name="detail_header_height">200dp</dimen>
+
+
+  <!-- Feedback -->
+  <dimen name="feedback_ranking_size">48dp</dimen>
+
+
+  <!-- Information -->
+  <dimen name="info_logo_width">240dp</dimen>
+  <dimen name="info_social_icon_margin">@dimen/space_16dp</dimen>
+  <dimen name="info_social_icon_size">36dp</dimen>
+
+
+  <!-- Contributor -->
+  <dimen name="contributor_image">60dp</dimen>
+  <dimen name="contributor_image_margin">@dimen/space_16dp</dimen>
+  <dimen name="contributor_image_margin_bottom">@dimen/space_8dp</dimen>
+  <dimen name="contributor_cell_margin_bottom">@dimen/space_16dp</dimen>
+
+  <!-- Sponsor -->
+  <dimen name="sponsor_image_height">80dp</dimen>
+  <dimen name="sponsor_image_margin">@dimen/space_8dp</dimen>
+  <dimen name="sponsor_image_border">2dp</dimen>
+</resources>

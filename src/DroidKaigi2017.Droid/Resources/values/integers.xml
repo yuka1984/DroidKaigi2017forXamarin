@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+  <integer name="activity_transition_mills">200</integer>
+  <integer name="dialog_transition_mills">200</integer>
+
+  <integer name="fab_vector_animation_mills">200</integer>
+
+  <integer name="contributors_columns">3</integer>
+
+</resources>

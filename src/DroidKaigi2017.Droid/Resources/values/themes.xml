@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="android:windowBackground">@color/white</item>
+    <item name="android:actionBarStyle">@style/BaseActionBar</item>
+    <item name="android:actionMenuTextColor">@color/toolbar_text</item>
+    <item name="colorPrimary">@color/theme</item>
+    <item name="colorPrimaryDark">@color/dark_theme</item>
+    <item name="colorAccent">@color/red</item>
+    <item name="android:textColorPrimary">@color/black</item>
+    <item name="android:textColorSecondary">@color/grey600</item>
+    <item name="colorControlNormal">@color/grey200</item>
+    <item name="colorControlActivated">@color/theme</item>
+    <item name="windowActionModeOverlay">true</item>
+    <item name="colorButtonNormal">@color/theme</item>
+    <item name="android:dialogTheme">@style/DialogTheme</item>
+    <item name="android:alertDialogTheme">@style/DialogTheme</item>
+    <item name="android:alertDialogStyle">@style/DialogTheme</item>
+    <item name="android:textColorLink">@color/theme</item>
+    <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/theme</item>
+    <!-- support library compatibility -->
+    <item name="actionBarTheme">@style/BaseActionBarTheme</item>
+    <item name="actionBarStyle">@style/BaseActionBar</item>
+    <item name="actionMenuTextColor">@color/toolbar_text</item>
+  </style>
+
+  <style name="AppTheme.Translucent">
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:colorBackgroundCacheHint">@null</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+  </style>
+
+  <style name="AppTheme.Translucent.Half">
+    <item name="android:windowBackground">@color/black_alpha_54</item>
+  </style>
+
+
+  <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+    <item name="colorAccent">@color/theme</item>
+  </style>
+
+  <style name="AppTheme.ColoredStatusBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="colorAccent">@color/white_alpha_95</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.Splash" parent="AppTheme.NoActionBar">
+  </style>
+
+  <style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.LightGreen">
+    <item name="colorPrimary">@color/light_green</item>
+    <item name="colorPrimaryDark">@color/dark_light_green</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.LightBlue">
+    <item name="colorPrimary">@color/light_blue</item>
+    <item name="colorPrimaryDark">@color/dark_light_blue</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.Blue">
+    <item name="colorPrimary">@color/blue</item>
+    <item name="colorPrimaryDark">@color/dark_blue</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.Purple">
+    <item name="colorPrimary">@color/purple</item>
+    <item name="colorPrimaryDark">@color/dark_purple</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.Pink">
+    <item name="colorPrimary">@color/pink</item>
+    <item name="colorPrimaryDark">@color/dark_pink</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.Red">
+    <item name="colorPrimary">@color/red</item>
+    <item name="colorPrimaryDark">@color/dark_red</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar.Yellow">
+    <item name="colorPrimary">@color/yellow</item>
+    <item name="colorPrimaryDark">@color/dark_yellow</item>
+  </style>
+
+  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+  <style name="BaseActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+    <item name="colorControlNormal">@color/toolbar_text</item>
+  </style>
+
+</resources>

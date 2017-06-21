@@ -171,18 +171,18 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 					spanParam.RowSpan = vm.RowSpan;
 				}
 
-				var root = holder.ItemView.FindViewById(Resource.Id.root);
-				root.Clickable = vm.IsSelectable;
+				var viewAccesor = new view_session_cell_holder(holder.ItemView);
 
-				root.SetBackgroundResource(vm.BackgroundResourceId);
+				
+				viewAccesor.root.Clickable = vm.IsSelectable;
 
-				var categoryBorder = holder.ItemView.FindViewById(Resource.Id.categoryBorder);
-				categoryBorder.Visibility = vm.IsNormalSession.ToViewStates();
-				categoryBorder.SetBackgroundResource(vm.TopicColorResourceId);
-				var check = holder.ItemView.FindViewById<ImageView>(Resource.Id.img_check);
-				check.Visibility = vm.IsCheckVisible.Value.ToViewStates();
-				root.Click += (sender, args) => { };
-				root.LongClick += (sender, args) =>
+				viewAccesor.root.SetBackgroundResource(vm.BackgroundResourceId);
+
+				viewAccesor.categoryBorder.Visibility = vm.IsNormalSession.ToViewStates();
+				viewAccesor.categoryBorder.SetBackgroundResource(vm.TopicColorResourceId);
+				viewAccesor.img_check.Visibility = vm.IsCheckVisible.Value.ToViewStates();
+				viewAccesor.root.Click += (sender, args) => { };
+				viewAccesor.root.LongClick += (sender, args) =>
 				{
 					var pos = base._recyclerView.GetChildAdapterPosition((View) sender);
 					var viewmodel = Get(pos);
@@ -191,22 +191,17 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 				vm.IsCheckVisible
 					.Skip(1)
 					.ObserveOnUIDispatcher()
-					.Subscribe(x => check.Visibility = x.ToViewStates());
+					.Subscribe(x => viewAccesor.img_check.Visibility = x.ToViewStates());
 
-				var txtTime = holder.ItemView.FindViewById<TextView>(Resource.Id.txt_time);
-				txtTime.Text = vm.ShortStartTime;
-				var txtMinute = holder.ItemView.FindViewById<TextView>(Resource.Id.txt_minutes);
-				txtMinute.Text = vm.Minutes;
-				var txtTitle = holder.ItemView.FindViewById<TextView>(Resource.Id.txt_title);
-				txtTitle.Text = vm.Title;
-				txtTitle.SetMaxLines(vm.TitleMaxLines);
-				var txtLanguage = holder.ItemView.FindViewById<TextView>(Resource.Id.txt_language);
-				txtLanguage.Text = vm.LanguageId;
-				txtLanguage.Visibility = vm.IsLanguageVisible.ToViewStates();
-				var txtSpeakerName = holder.ItemView.FindViewById<TextView>(Resource.Id.txt_speaker_name);
-				txtSpeakerName.Text = vm.SpeakerName;
-				txtSpeakerName.SetMaxLines(vm.SpeakerNameMaxLines);
-				txtSpeakerName.Visibility = vm.IsNormalSession.ToViewStates();
+				viewAccesor.txt_time.Text = vm.ShortStartTime;
+				viewAccesor.txt_minutes.Text = vm.Minutes;
+				viewAccesor.txt_title.Text = vm.Title;
+				viewAccesor.txt_title.SetMaxLines(vm.TitleMaxLines);
+				viewAccesor.txt_language.Text = vm.LanguageId;
+				viewAccesor.txt_language.Visibility = vm.IsLanguageVisible.ToViewStates();
+				viewAccesor.txt_speaker_name.Text = vm.SpeakerName;
+				viewAccesor.txt_speaker_name.SetMaxLines(vm.SpeakerNameMaxLines);
+				viewAccesor.txt_speaker_name.Visibility = vm.IsNormalSession.ToViewStates();
 			}
 
 			public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

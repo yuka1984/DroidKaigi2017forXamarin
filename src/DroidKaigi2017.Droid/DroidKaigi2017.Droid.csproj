@@ -149,6 +149,7 @@
     <Compile Include="Mocks\MockSpeakerService.cs" />
     <Compile Include="Mocks\MockTopicService.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Resources\Layout.Designer.cs" />
     <Compile Include="Utils\CSharpUtil.cs" />
     <Compile Include="Utils\DateUtil.cs" />
     <Compile Include="Utils\IAppSettings.cs" />

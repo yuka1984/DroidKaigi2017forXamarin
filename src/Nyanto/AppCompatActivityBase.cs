@@ -31,8 +31,13 @@ namespace Nyanto
 		public ILifetimeScope GetComponentContext()
 		{
 			if (_lifetimeScope == null)
-				_lifetimeScope = LifeTimeProviders.Of(this).Get(typeof(ILifetimeScope));
+			{
+				_lifetimeScope = LifeTimeProviders.Of(this, ConfigurationAction).Get(typeof(ILifetimeScope));
+			}
+				
 			return _lifetimeScope;
 		}
+
+		protected abstract void ConfigurationAction(ContainerBuilder containerBuilder);
 	}
 }

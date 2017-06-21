@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using Android.Content;
+using DroidKaigi2017.Droid.Annotations;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Interface.MySession;
 using DroidKaigi2017.Interface.Room;
@@ -33,10 +34,11 @@ namespace DroidKaigi2017.Droid.ViewModels
 		private readonly ISpeakerService _speakerService;
 		private readonly Topic _topic;
 		private readonly ITopicService _topicService;
+		private readonly INavigator _navigator;
 
 		public SessionViewModel(Context context, SessionModel sessionModel, IMySessionService mySessionService,
 			IRoomService roomService,
-			ISpeakerService speakerService, ITopicService topicService, IDateUtil dateUtil)
+			ISpeakerService speakerService, ITopicService topicService, IDateUtil dateUtil, INavigator navigator)
 		{
 			_context = context;
 			_mySessionService = mySessionService;
@@ -45,6 +47,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 			_topicService = topicService;
 			_sessionModel = sessionModel;
 			_dateUtil = dateUtil;
+			_navigator = navigator;
 
 			_speakerModel = _speakerService.SpealersObservable.Value?.FirstOrDefault(x => x.Id == sessionModel.SpeakerId);
 			_roomModel = _roomService.RoomsObservable.Value?.FirstOrDefault(x => x.Id == sessionModel.RoomId);
@@ -66,6 +69,9 @@ namespace DroidKaigi2017.Droid.ViewModels
 				else
 					_mySessionService.Remove(sessionModel.Id);
 			});
+
+			GoDetailCommand = new ReactiveCommand();
+			GoDetailCommand.Subscribe(x => { _navigator.NavigateToSessionDetail(this); });
 		}
 
 		private SessionViewModel(int rowSpan = 1, int colSpan = 1)
@@ -82,6 +88,8 @@ namespace DroidKaigi2017.Droid.ViewModels
 		public DateTime StartTime => _sessionModel?.StartTime.UtcDateTime ?? DateTime.MinValue;
 
 		public DateTime EndTime => _sessionModel?.EndTime.UtcDateTime ?? DateTime.MaxValue;
+
+		public int SessionId => _sessionModel?.Id ?? -1;
 
 		public string Title => _sessionModel?.Title;
 		public string SpeakerName => _speakerModel?.Name;
@@ -123,6 +131,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 
 		public bool IsSelectable => _sessionModel != null && _sessionModel.Type != SessionType.Break;
 
+		public ReactiveCommand GoDetailCommand { get; }
 		public ReactiveCommand<bool> CheckCommand { get; }
 		public ReadOnlyReactiveProperty<bool> IsCheckVisible { get; }
 

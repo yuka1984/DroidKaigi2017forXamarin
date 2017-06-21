@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Diagnostics.Contracts;
 using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -43,6 +44,21 @@ namespace TwoWayView.Core
 		void RecyclerView.IOnChildAttachStateChangeListener.OnChildViewDetachedFromWindow(View view)
 		{
 			OnChildViewDetachedFromWindowAction?.Invoke(view);
+		}
+	}
+
+	public class AnonymousIOnItemClickListener : ItemClickSupport.IOnItemClickListener, ItemClickSupport.IOnItemLongClickListener
+	{
+		public Action<RecyclerView, int, View> OnItemClickedAction { get; set; }
+		public void onItemClicked(RecyclerView recyclerView, int position, View v)
+		{
+			OnItemClickedAction?.Invoke(recyclerView, position, v);
+		}
+
+		public Func<RecyclerView, int, View, bool> OnItemLongClickedAction { get; set; }
+		public bool onItemLongClicked(RecyclerView recyclerView, int position, View v)
+		{
+			return OnItemLongClickedAction?.Invoke(recyclerView, position, v) ?? false;
 		}
 	}
 

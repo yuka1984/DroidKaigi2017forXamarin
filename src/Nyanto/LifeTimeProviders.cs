@@ -26,15 +26,20 @@ namespace Nyanto
 			});
 		}
 
-		public static ObjectProvider<ILifetimeScope> Of(FragmentActivity activity)
+		public static ObjectProvider<ILifetimeScope> Of(FragmentActivity activity, Action<ContainerBuilder> configurationAction = null)
 		{
 			return new ObjectProvider<ILifetimeScope>(ObjectStores<ILifetimeScope>.Of(activity), () =>
 			{
 				var mainApp = activity.Application as ApplicationBase;
 				if (mainApp == null)
 					throw new ArgumentException();
+				if (configurationAction == null)
+				{
+					return mainApp.ApplicationComponentContext.BeginLifetimeScope();
+				}
 
-				return mainApp.ApplicationComponentContext.BeginLifetimeScope();
+				return mainApp.ApplicationComponentContext.BeginLifetimeScope(configurationAction);
+
 			});
 		}
 	}

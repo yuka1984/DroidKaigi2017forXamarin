@@ -181,7 +181,12 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 				viewAccesor.categoryBorder.Visibility = vm.IsNormalSession.ToViewStates();
 				viewAccesor.categoryBorder.SetBackgroundResource(vm.TopicColorResourceId);
 				viewAccesor.img_check.Visibility = vm.IsCheckVisible.Value.ToViewStates();
-				viewAccesor.root.Click += (sender, args) => { };
+				viewAccesor.root.Click += (sender, args) =>
+				{
+					var pos = base._recyclerView.GetChildAdapterPosition((View)sender);
+					var viewmodel = Get(pos);
+					viewmodel.GoDetailCommand.Execute();
+				};
 				viewAccesor.root.LongClick += (sender, args) =>
 				{
 					var pos = base._recyclerView.GetChildAdapterPosition((View) sender);

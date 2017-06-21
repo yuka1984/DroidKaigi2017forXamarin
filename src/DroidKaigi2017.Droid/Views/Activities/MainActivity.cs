@@ -76,6 +76,11 @@ namespace DroidKaigi2017.Droid.Views.Activities
 			base.OnDestroy();
 		}
 
+		protected override void ConfigurationAction(ContainerBuilder containerBuilder)
+		{
+			containerBuilder.Register((c) => new Navigator(this)).As<INavigator>().SingleInstance();
+		}
+
 		private void InitFragments(Bundle savedInstanceState)
 		{
 			_SettingsFragment = SupportFragmentManager.FindFragmentByTag(SettingsFragment.Tag);

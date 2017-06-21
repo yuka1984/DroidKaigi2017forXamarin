@@ -42,15 +42,14 @@ namespace DroidKaigi2017.Droid
 			builder.RegisterType<MockMySessionService>().As<IMySessionService>().SingleInstance();
 
 			// Activity LyfeTime
-			builder.RegisterType<Navigator>()
-				.As<INavigator>()
-				.PropertiesAutowired()
-				.InstancePerLifetimeScope();
 
 			builder.RegisterType<SettingViewModel>()
 				.InstancePerLifetimeScope();
 
 			builder.RegisterType<SessionsViewModel>()
+				.InstancePerLifetimeScope();
+
+			builder.RegisterType<SessionDetailViewModel>()
 				.InstancePerLifetimeScope();
 
 			builder.Register(c => new DateUtil(Context)).As<IDateUtil>();

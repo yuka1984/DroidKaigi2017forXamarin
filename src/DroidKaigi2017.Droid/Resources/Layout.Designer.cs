@@ -80,6 +80,68 @@ namespace DroidKaigi2017.Droid
 		}
 	}
 
+	public class fragment_session_detail_holder : IDisposable
+	{
+		public Android.Support.Design.Widget.AppBarLayout app_bar { get; }
+		public Android.Support.Design.Widget.CollapsingToolbarLayout collapsing_toolbar { get; }
+		public ImageView img_cover { get; }
+		public View fade_cover { get; }
+		public Android.Support.V7.Widget.Toolbar toolbar { get; }
+		public Android.Support.V4.Widget.NestedScrollView nested_scroll { get; }
+		public Com.Google.Android.Flexbox.FlexboxLayout tag_container { get; }
+		public TextView txt_place { get; }
+		public TextView txt_language { get; }
+		public TextView txt_topic { get; }
+		public ImageView img_speaker { get; }
+		public TextView txt_speaker_name { get; }
+		public ImageView icon_slide { get; }
+		public ImageView icon_movie { get; }
+		public TextView txt_description { get; }
+		public Button txt_feedback { get; }
+		public Android.Support.Design.Widget.FloatingActionButton fab { get; }
+
+		public fragment_session_detail_holder(View view)
+		{
+			app_bar = view.FindViewById<Android.Support.Design.Widget.AppBarLayout>(DroidKaigi2017.Droid.Resource.Id.app_bar);
+			collapsing_toolbar = view.FindViewById<Android.Support.Design.Widget.CollapsingToolbarLayout>(DroidKaigi2017.Droid.Resource.Id.collapsing_toolbar);
+			img_cover = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.img_cover);
+			fade_cover = view.FindViewById<View>(DroidKaigi2017.Droid.Resource.Id.fade_cover);
+			toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(DroidKaigi2017.Droid.Resource.Id.toolbar);
+			nested_scroll = view.FindViewById<Android.Support.V4.Widget.NestedScrollView>(DroidKaigi2017.Droid.Resource.Id.nested_scroll);
+			tag_container = view.FindViewById<Com.Google.Android.Flexbox.FlexboxLayout>(DroidKaigi2017.Droid.Resource.Id.tag_container);
+			txt_place = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_place);
+			txt_language = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_language);
+			txt_topic = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_topic);
+			img_speaker = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.img_speaker);
+			txt_speaker_name = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_speaker_name);
+			icon_slide = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.icon_slide);
+			icon_movie = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.icon_movie);
+			txt_description = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_description);
+			txt_feedback = view.FindViewById<Button>(DroidKaigi2017.Droid.Resource.Id.txt_feedback);
+			fab = view.FindViewById<Android.Support.Design.Widget.FloatingActionButton>(DroidKaigi2017.Droid.Resource.Id.fab);
+		}
+		public void Dispose()
+		{
+			app_bar.Dispose();
+			collapsing_toolbar.Dispose();
+			img_cover.Dispose();
+			fade_cover.Dispose();
+			toolbar.Dispose();
+			nested_scroll.Dispose();
+			tag_container.Dispose();
+			txt_place.Dispose();
+			txt_language.Dispose();
+			txt_topic.Dispose();
+			img_speaker.Dispose();
+			txt_speaker_name.Dispose();
+			icon_slide.Dispose();
+			icon_movie.Dispose();
+			txt_description.Dispose();
+			txt_feedback.Dispose();
+			fab.Dispose();
+		}
+	}
+
 	public class fragment_settings_holder : IDisposable
 	{
 		public LinearLayout root_view { get; }

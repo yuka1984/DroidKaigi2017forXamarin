@@ -502,6 +502,10 @@
       <Project>{d8425e88-00e0-45bc-b412-d05741b66991}</Project>
       <Name>DroidKaigi2017.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MultilineCollapsingToolbar\MultilineCollapsingToolbar.csproj">
+      <Project>{ed8937e7-97b6-45d0-89d4-87fee4215e75}</Project>
+      <Name>MultilineCollapsingToolbar</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nyanto\Nyanto.csproj">
       <Project>{c0a7a88d-e854-4eb7-a6e5-644af99c63eb}</Project>
       <Name>Nyanto</Name>
@@ -528,6 +532,27 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_session_detail.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_session_detail.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-nodpi\ic_droidkaigi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-nodpi\ic_speaker_placeholder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-nodpi\img_floormap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-nodpi\img_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-nodpi\img_session_cover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-nodpi\img_splash_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

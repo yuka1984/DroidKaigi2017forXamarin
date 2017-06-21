@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoWayView.Sample", "TwoWay
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nyanto.ViewSupportTool", "Nyanto.ViewSupportTool\Nyanto.ViewSupportTool.csproj", "{984F26EA-BBB1-4E4C-A543-029F7EC1BF69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultilineCollapsingToolbar", "MultilineCollapsingToolbar\MultilineCollapsingToolbar.csproj", "{ED8937E7-97B6-45D0-89D4-87FEE4215E75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{984F26EA-BBB1-4E4C-A543-029F7EC1BF69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{984F26EA-BBB1-4E4C-A543-029F7EC1BF69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{984F26EA-BBB1-4E4C-A543-029F7EC1BF69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED8937E7-97B6-45D0-89D4-87FEE4215E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED8937E7-97B6-45D0-89D4-87FEE4215E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED8937E7-97B6-45D0-89D4-87FEE4215E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED8937E7-97B6-45D0-89D4-87FEE4215E75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

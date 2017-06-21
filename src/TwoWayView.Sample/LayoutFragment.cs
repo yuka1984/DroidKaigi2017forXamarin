@@ -72,18 +72,18 @@ namespace TwoWayView.Sample
 
 			var itemClick = ItemClickSupport.addTo(mRecyclerView);
 
-			itemClick.setOnItemClickListener(new ItemClickSupport.OnItemClickListner
+			itemClick.setOnItemClickListener(new AnonymousIOnItemClickListener
 			{
-				OnItemClickAction = (parent, shild, position, id) =>
+				OnItemClickedAction = (parent, position, v) =>
 				{
 					mToast.SetText("Item clicked: " + position);
 					mToast.Show();
 				}
 			});
 
-			itemClick.setOnItemLongClickListener(new ItemClickSupport.OnItemClickListner
+			itemClick.setOnItemLongClickListener(new AnonymousIOnItemClickListener()
 			{
-				OnItemLongClickAction = (parent, shild, position, id) =>
+				OnItemLongClickedAction = (parent, position, v) =>
 				{
 					mToast.SetText("Item long clicked: " + position);
 					mToast.Show();

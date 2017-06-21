@@ -31,11 +31,12 @@ namespace DroidKaigi2017.Droid.ViewModels
 		private readonly ISessionService _sessionService;
 		private readonly ISpeakerService _speakerService;
 		private readonly ITopicService _topicService;
+		private readonly INavigator _navigator;
 
 		public readonly BusyNotifier BusyNotifier = new BusyNotifier();
 
 		public SessionsViewModel(ISessionService sessionService, IRoomService roomService, IMySessionService mySessionService,
-			IDateUtil dateUtil, Context context, ISpeakerService speakerService, ITopicService topicService)
+			IDateUtil dateUtil, Context context, ISpeakerService speakerService, ITopicService topicService, INavigator navigator)
 		{
 			_sessionService = sessionService;
 			_roomService = roomService;
@@ -44,6 +45,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 			_context = context;
 			_speakerService = speakerService;
 			_topicService = topicService;
+			_navigator = navigator;
 
 			var dispose = BusyNotifier.ProcessStart();
 
@@ -55,7 +57,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 						_topicService.TopicsObservable, (session, room, speaker, topic) => new {session, room, speaker, topic})
 					.Select(x =>
 						x.session.Select(y =>
-								new SessionViewModel(_context, y, _mySessionService, _roomService, _speakerService, _topicService, _dateUtil))
+								new SessionViewModel(_context, y, _mySessionService, _roomService, _speakerService, _topicService, _dateUtil, _navigator))
 							.ToList())
 					.Select(x => AdjustViewModels(x))
 					.ToReadOnlySwitchReactiveProperty(switchSource:base.IsActiveObservable, eventScheduler: TaskPoolScheduler.Default)

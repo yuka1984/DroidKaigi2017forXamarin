@@ -17,6 +17,7 @@ using DroidKaigi2017.Droid.ViewModels;
 using DroidKaigi2017.Droid.Views.CustomViews;
 using Nyanto;
 using Reactive.Bindings.Extensions;
+using TwoWayView.Core;
 using TwoWayView.Layout;
 using DividerItemDecoration = TwoWayView.Layout.DividerItemDecoration;
 
@@ -50,8 +51,10 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 			ViewModel.SessionsObservable
 				.ObserveOnUIDispatcher()
-				.Subscribe(RenderSessions);
+				.Subscribe(RenderSessions)
+				.AddTo(CompositeDisposable);
 			ViewModel.BusyNotifier
+				.ObserveOnUIDispatcher()
 				.Subscribe(x => { loading.Visibility = x ? ViewStates.Visible : ViewStates.Gone; })
 				.AddTo(CompositeDisposable);
 			InitView();
@@ -117,16 +120,19 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 				args.Handled = false;
 			};
 
-			ViewUtil.AddOneTimeOnGlobalLayoutListener(headerRow, () =>
+			ViewUtil.AddOneTimeOnGlobalLayoutListener(headerRow, new AnonymousOnGlobalLayoutListener
 			{
-				if (headerRow.Height > 0)
+				OnGlobalLayoutAction = () =>
 				{
-					recycleView.LayoutParameters.Height = root.Height - border.Height
-					                                      - headerRow.Height;
-					recycleView.RequestLayout();
-					return true;
+					if (headerRow.Height > 0)
+					{
+						recycleView.LayoutParameters.Height = root.Height - border.Height
+						                                      - headerRow.Height;
+						recycleView.RequestLayout();
+						return true;
+					}
+					return false;
 				}
-				return false;
 			});
 
 			recycleView.ClearOnScrollListeners();
@@ -175,24 +181,24 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 				
 				viewAccesor.root.Clickable = vm.IsSelectable;
+				viewAccesor.root.Enabled = vm.IsSelectable;
 
 				viewAccesor.root.SetBackgroundResource(vm.BackgroundResourceId);
 
 				viewAccesor.categoryBorder.Visibility = vm.IsNormalSession.ToViewStates();
 				viewAccesor.categoryBorder.SetBackgroundResource(vm.TopicColorResourceId);
 				viewAccesor.img_check.Visibility = vm.IsCheckVisible.Value.ToViewStates();
-				viewAccesor.root.Click += (sender, args) =>
+				var clicklistner = new AnonymousOnClickListner()
 				{
-					var pos = base._recyclerView.GetChildAdapterPosition((View)sender);
-					var viewmodel = Get(pos);
-					viewmodel.GoDetailCommand.Execute();
+					OnClickAction = (view)=> { vm.GoDetailCommand.Execute(); },
+					OnLongClickAction = (view) =>
+					{
+						vm.CheckCommand?.Execute(!vm.IsCheckVisible.Value);
+						return true;
+					},
 				};
-				viewAccesor.root.LongClick += (sender, args) =>
-				{
-					var pos = base._recyclerView.GetChildAdapterPosition((View) sender);
-					var viewmodel = Get(pos);
-					viewmodel.CheckCommand.Execute(!viewmodel.IsCheckVisible.Value);
-				};
+				viewAccesor.root.SetOnClickListener(clicklistner);
+				viewAccesor.root.SetOnLongClickListener(clicklistner);
 				vm.IsCheckVisible
 					.Skip(1)
 					.ObserveOnUIDispatcher()

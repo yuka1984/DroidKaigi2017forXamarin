@@ -48,29 +48,33 @@ namespace DroidKaigi2017.Droid.ViewModels
 			_navigator = navigator;
 
 			var dispose = BusyNotifier.ProcessStart();
+			var load = Observable.FromAsync(() =>
+				Task
+					.WhenAll(
+						_sessionService.LoadAsync()
+						, _roomService.LoadAsync()
+						, _speakerService.LoadAsync()
+						, _topicService.LoadAsync())
+					.ContinueWith(task => dispose.Dispose()));
 
-			SessionsObservable = _sessionService.SessionsObservable
-					.Do(x => { StartTimes = x.Select(y => y.StartTime).Distinct().ToList(); })
-					.CombineLatest(
-						_roomService.RoomsObservable.Do(x => SessionRooms = x.ToList()),
-						_speakerService.SpealersObservable,
-						_topicService.TopicsObservable, (session, room, speaker, topic) => new {session, room, speaker, topic})
-					.Select(x =>
-						x.session.Select(y =>
-								new SessionViewModel(_context, y, _mySessionService, _roomService, _speakerService, _topicService, _dateUtil, _navigator))
-							.ToList())
-					.Select(x => AdjustViewModels(x))
-					.ToReadOnlySwitchReactiveProperty(switchSource:base.IsActiveObservable, eventScheduler: TaskPoolScheduler.Default)
-					.AddTo(CompositeDisposable)
+			SessionsObservable = load.Select(x => new List<SessionViewModel>())
+					.Concat(
+						_sessionService.SessionsObservable
+							.Do(x => { StartTimes = x.Select(y => y.StartTime).Distinct().ToList(); })
+							.CombineLatest(
+								_roomService.RoomsObservable.Do(x => SessionRooms = x.ToList()),
+								_speakerService.SpealersObservable,
+								_topicService.TopicsObservable, (session, room, speaker, topic) => new {session, room, speaker, topic})
+							.Select(x =>
+								x.session.Select(y =>
+										new SessionViewModel(_context, y, _mySessionService, _roomService, _speakerService, _topicService, _dateUtil,
+											_navigator))
+									.ToList())
+							.Select(x => AdjustViewModels(x))
+							.ToReadOnlySwitchReactiveProperty(switchSource: base.IsActiveObservable,
+								eventScheduler: TaskPoolScheduler.Default)
+							.AddTo(CompositeDisposable)).Skip(1)
 				;
-
-			Task
-				.WhenAll(
-					_sessionService.LoadAsync()
-					, _roomService.LoadAsync()
-					, _speakerService.LoadAsync()
-					, _topicService.LoadAsync())
-				.ContinueWith(task => dispose.Dispose());
 		}
 
 		public IObservable<List<SessionViewModel>> SessionsObservable { get; }

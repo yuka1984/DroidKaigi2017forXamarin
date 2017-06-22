@@ -48,7 +48,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 			_navigator = navigator;
 
 			var dispose = BusyNotifier.ProcessStart();
-			var load = Observable.FromAsync(() =>
+			var loadingObservable = Observable.FromAsync(() =>
 				Task
 					.WhenAll(
 						_sessionService.LoadAsync()
@@ -57,7 +57,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 						, _topicService.LoadAsync())
 					.ContinueWith(task => dispose.Dispose()));
 
-			SessionsObservable = load.Select(x => new List<SessionViewModel>())
+			SessionsObservable = loadingObservable.Select(x => new List<SessionViewModel>())
 					.Concat(
 						_sessionService.SessionsObservable
 							.Do(x => { StartTimes = x.Select(y => y.StartTime).Distinct().ToList(); })
@@ -70,10 +70,9 @@ namespace DroidKaigi2017.Droid.ViewModels
 										new SessionViewModel(_context, y, _mySessionService, _roomService, _speakerService, _topicService, _dateUtil,
 											_navigator))
 									.ToList())
-							.Select(x => AdjustViewModels(x))
-							.ToReadOnlySwitchReactiveProperty(switchSource: base.IsActiveObservable,
-								eventScheduler: TaskPoolScheduler.Default)
-							.AddTo(CompositeDisposable)).Skip(1)
+							.Select(x => AdjustViewModels(x)))
+					.ToReadOnlySwitchReactiveProperty(switchSource: base.IsActiveObservable, initialValue:new List<SessionViewModel>(), eventScheduler: TaskPoolScheduler.Default)
+					.AddTo(CompositeDisposable)
 				;
 		}
 

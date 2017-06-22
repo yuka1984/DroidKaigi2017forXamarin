@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Reactive.Concurrency;
 using Android.App;
 using Android.Runtime;
 using Autofac;
@@ -13,6 +14,7 @@ using DroidKaigi2017.Interface.Session;
 using DroidKaigi2017.Interface.Speaker;
 using DroidKaigi2017.Interface.Topic;
 using Nyanto;
+using Reactive.Bindings;
 
 #endregion
 
@@ -24,6 +26,7 @@ namespace DroidKaigi2017.Droid
 		public MainApplication(IntPtr javaReference, JniHandleOwnership transfer)
 			: base(javaReference, transfer)
 		{
+			ReactivePropertyScheduler.SetDefault(TaskPoolScheduler.Default);
 		}
 
 		protected override void ContainerSetting(ContainerBuilder builder)

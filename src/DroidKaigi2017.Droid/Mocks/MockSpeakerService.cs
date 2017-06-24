@@ -1,9 +1,13 @@
 ﻿#region
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
+using DroidKaigi2017.Interface.Session;
 using DroidKaigi2017.Interface.Speaker;
+using Newtonsoft.Json;
 using Reactive.Bindings;
 
 #endregion
@@ -27,19 +31,21 @@ namespace DroidKaigi2017.Droid.Mocks
 
 		public async Task LoadAsync()
 		{
-			if (IsDirty)
+			if (!IsDirty)
 				return;
-			await Task.Delay(5000);
-			_speakerProperty.Value = new List<SpeakerModel>
-			{
-				new SpeakerModel
+			await Task.Delay(5000).ConfigureAwait(false);
+			var httpClient = new HttpClient();
+			var r = await httpClient.GetStringAsync("https://droidkaigi.github.io/2017/sessions.json");
+			var ent = JsonConvert.DeserializeObject<List<MockSessionService.Session>>(r);
+
+			_speakerProperty.Value = ent.Select(x => new SpeakerModel
 				{
-					Id = 1,
-					ImageUrl = "http://www.starico-03.com/stamp/outline/a218311-0.png",
-					Name = "あざらしさん-1",
-					TwitterName = @"@azarashiSan"
-				}
-			};
+					Id = x.Speaker?.Id ?? -1,
+					ImageUrl = "https://droidkaigi.github.io/2017" + x.Speaker?.ImageUrl,
+					Name = x.Speaker?.Name,
+					TwitterName = x.Speaker?.TwitterName
+				})
+				.ToList();
 			IsDirty = false;
 		}
 	}

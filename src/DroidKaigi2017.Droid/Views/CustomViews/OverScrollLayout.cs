@@ -153,5 +153,13 @@ namespace DroidKaigi2017.Droid.Views.CustomViews
 		{
 			void OnOverScroll();
 		}
+		public class AnonymousOnOverScrillListner : IOnOverScrollListener
+		{ 
+			public Action OnOverScrollAction { get; set; }
+			public void OnOverScroll()
+			{
+				OnOverScrollAction?.Invoke();
+			}
+		}
 	}
 }

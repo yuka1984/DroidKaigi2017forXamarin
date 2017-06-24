@@ -142,7 +142,15 @@ namespace TwoWayview.Layout
 
 		public void getLane(int lane, Rect laneRect)
 		{
-			laneRect.Set(mLanes[lane]);
+			try
+			{
+				laneRect.Set(mLanes[lane]);
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Trace.TraceWarning(e.ToString());
+			}
+			
 		}
 
 		public int pushChildFrame(Rect outRect, int lane, int margin, Direction direction)

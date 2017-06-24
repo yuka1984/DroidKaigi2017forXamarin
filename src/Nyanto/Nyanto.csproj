@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="AppCompatActivityBase.cs" />
     <Compile Include="ApplicationBase.cs" />
+    <Compile Include="Binding\BindingHelper.cs" />
     <Compile Include="Core\ActivityLifecycleManager.cs" />
     <Compile Include="Core\ActivityLifecycleObservable.cs" />
     <Compile Include="Core\ActivityLifeCycycle.cs" />

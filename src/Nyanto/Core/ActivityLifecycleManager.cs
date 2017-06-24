@@ -71,8 +71,7 @@ namespace Nyanto.Core
 			return _lifecycleSubject.Where(x => x.Item1 == activity.GetHashCode())
 				.Select(x =>
 				{
-					return x.Item2 == ActivityLifeCycycle.Resumed || x.Item2 == ActivityLifeCycycle.Started ||
-					       x.Item2 == ActivityLifeCycycle.Paused;
+					return x.Item2 == ActivityLifeCycycle.Resumed || x.Item2 == ActivityLifeCycycle.Started;
 				});
 		}
 

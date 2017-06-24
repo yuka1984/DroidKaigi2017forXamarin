@@ -2,9 +2,9 @@
 
 using System;
 using Android.Content;
-using Android.Icu.Text;
 using Android.OS;
 using Android.Text.Format;
+using Java.Text;
 using Java.Util;
 using Java.Util.Concurrent;
 using DateFormat = Android.Text.Format.DateFormat;

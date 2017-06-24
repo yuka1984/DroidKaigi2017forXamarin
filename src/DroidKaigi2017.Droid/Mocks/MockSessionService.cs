@@ -57,7 +57,8 @@ namespace DroidKaigi2017.Droid.Mocks
 					MovieUrl = x.MovieUrl,
 					ShareUrl = x.ShareUrl,
 					SlideUrl = x.SlideUrl,
-					TopicId = x.Topic?.Id ?? 0
+					TopicId = x.Topic?.Id ?? 0,
+					Description = x.Description
 				})
 				.ToList();
 			IsDirty = false;
@@ -75,6 +76,9 @@ namespace DroidKaigi2017.Droid.Mocks
 
 			[JsonProperty("title")]
 			public string Title { get; set; }
+
+			[JsonProperty("desc")]
+			public string Description { get; set; }
 
 			[JsonProperty("speaker")]
 			public Speaker Speaker { get; set; }

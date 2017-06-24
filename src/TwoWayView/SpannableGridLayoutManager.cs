@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using Android.Content;
 using Android.OS;
 using Android.Support.V7.Widget;
@@ -9,6 +10,7 @@ using Android.Widget;
 using Java.Lang;
 using TwoWayview.Layout;
 using TwoWayView.Core;
+using Exception = Java.Lang.Exception;
 using Math = System.Math;
 
 #endregion
@@ -166,10 +168,17 @@ namespace TwoWayView.Layout
 					pushChildFrame(entry, mTempRect, entry.startLane, getLaneSpan(entry, isVertical),
 						Direction.END);
 			}
-
-			lanes.getLane(mTempLaneInfo.startLane, mTempRect);
-			lanes.reset(Direction.END);
-			lanes.offset(offset - (isVertical ? mTempRect.Bottom : mTempRect.Right));
+			try
+			{
+				lanes.getLane(mTempLaneInfo.startLane, mTempRect);
+				lanes.reset(Direction.END);
+				lanes.offset(offset - (isVertical ? mTempRect.Bottom : mTempRect.Right));
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Trace.TraceWarning("moveLayoutToPosition", e);
+			}
+			
 		}
 
 		protected override ItemEntry cacheChildLaneAndSpan(View child, Direction direction)

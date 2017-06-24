@@ -71,7 +71,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 			});
 
 			GoDetailCommand = new ReactiveCommand();
-			GoDetailCommand.Subscribe(x => { _navigator.NavigateToSessionDetail(this); });
+			GoDetailCommand.Subscribe(x => { _navigator.NavigateTo(NavigationKey.GoSessionDetail, this); });
 		}
 
 		private SessionViewModel(int rowSpan = 1, int colSpan = 1)

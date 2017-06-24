@@ -10,12 +10,13 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Autofac;
+using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Droid.ViewModels;
 using DroidKaigi2017.Droid.Views.Fragments;
 
 namespace DroidKaigi2017.Droid.Views.Activities
 {
-	[Activity(Label = "Session Information")]
+	[Activity(Label = "Session Information", Exported = false, ParentActivity = typeof(MainActivity), Theme = "@style/AppTheme.Translucent.Half")]
 	public class SessionDetailActivity : ActivityBase
 	{
 		private const string EXTRA_SESSION_ID = "session_id";
@@ -48,7 +49,22 @@ namespace DroidKaigi2017.Droid.Views.Activities
 
 		protected override void ConfigurationAction(ContainerBuilder containerBuilder)
 		{
-			
+			containerBuilder.Register(c => new Navigator(this)).As<INavigator>().SingleInstance();
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+				case Android.Resource.Id.Home:
+					upToParentActivity();
+					return true;
+			}
+			return base.OnOptionsItemSelected(item);
+		}
+		private void upToParentActivity()
+		{
+			Finish();
 		}
 	}
 }

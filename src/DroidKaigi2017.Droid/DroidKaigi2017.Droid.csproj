@@ -53,6 +53,12 @@
     <Reference Include="Calligraphy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CallygraphyXamarin.2.2.0\lib\MonoAndroid\Calligraphy.dll</HintPath>
     </Reference>
+    <Reference Include="FFImageLoading, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.9\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.9\lib\MonoAndroid10\FFImageLoading.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="FlexboxLayoutXamarinBindingAndroid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FlexboxLayoutXamarinBindingAndroid.1.0.2\lib\monoandroid71\FlexboxLayoutXamarinBindingAndroid.dll</HintPath>
     </Reference>
@@ -181,6 +187,7 @@
     <Compile Include="Views\Fragments\SessionsFragment.cs" />
     <Compile Include="Views\Fragments\SettingsFragment.cs" />
     <Compile Include="Views\CustomViews\SettingSwitchRowView.cs" />
+    <Compile Include="Views\helpers\BindingHelper.cs" />
     <Compile Include="Views\helpers\BottomNavigationViewHelper.cs" />
   </ItemGroup>
   <ItemGroup>

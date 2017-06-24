@@ -16,6 +16,7 @@ using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Droid.ViewModels;
 using DroidKaigi2017.Droid.Views.CustomViews;
 using Nyanto;
+using Nyanto.Binding;
 using Reactive.Bindings.Extensions;
 using TwoWayView.Core;
 using TwoWayView.Layout;
@@ -50,6 +51,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 			loading = view.FindViewById(Resource.Id.loading);
 
 			ViewModel.SessionsObservable
+				.DistinctUntilChanged()
 				.ObserveOnUIDispatcher()
 				.Subscribe(RenderSessions)
 				.AddTo(CompositeDisposable);
@@ -158,6 +160,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 		public class SessionsAdapter : ArrayRecyclerAdapter<SessionViewModel>
 		{
+
 			public SessionsAdapter(Context context) : base(context)
 			{
 			}
@@ -199,10 +202,10 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 				};
 				viewAccesor.root.SetOnClickListener(clicklistner);
 				viewAccesor.root.SetOnLongClickListener(clicklistner);
-				vm.IsCheckVisible
-					.Skip(1)
-					.ObserveOnUIDispatcher()
-					.Subscribe(x => viewAccesor.img_check.Visibility = x.ToViewStates());
+				viewAccesor
+					.img_check.OneWayBind(x => x.Visibility, vm.IsCheckVisible.Skip(1).Select(x => x.ToViewStates()))
+					.AddTo(CompositeDisposable)
+					;
 
 				viewAccesor.txt_time.Text = vm.ShortStartTime;
 				viewAccesor.txt_minutes.Text = vm.Minutes;

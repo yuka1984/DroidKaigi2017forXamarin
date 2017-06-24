@@ -3,6 +3,7 @@
 <DroidKaigi2017.Droid.Views.CustomViews.OverScrollLayout
           xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -90,6 +91,7 @@
                     >
 
                 <TextView
+                        android:id="@+id/txt_timerange"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/ic_time_18_state"
@@ -146,6 +148,7 @@
                 </com.google.android.flexbox.FlexboxLayout>
 
                 <RelativeLayout
+                        android:id="@+id/speaker"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/space_16dp"
@@ -157,8 +160,8 @@
                         android:clipToPadding="false"
                         >
 
-                    <ImageView
-                            android:id="@+id/img_speaker"
+                  <FFImageLoading.Views.ImageViewAsync
+                          android:id="@+id/img_speaker"
                             android:layout_width="@dimen/icon_48dp"
                             android:layout_height="@dimen/icon_48dp"
                             android:contentDescription="@string/speaker"

@@ -15,7 +15,7 @@ using Reactive.Bindings;
 
 namespace Nyanto
 {
-	public abstract class ViewModelBase : IDisposable, INotifyPropertyChanged, IObserver<bool>
+	public abstract class ViewModelBase : IDisposable, INotifyPropertyChanged, IObserver<bool>, IObservable<bool>
 	{
 		public readonly CompositeDisposable CompositeDisposable = new CompositeDisposable();
 
@@ -81,6 +81,11 @@ namespace Nyanto
 		void IObserver<bool>.OnCompleted()
 		{
 			
+		}
+
+		public IDisposable Subscribe(IObserver<bool> observer)
+		{
+			return IsActiveObservable.Subscribe(observer);
 		}
 	}
 

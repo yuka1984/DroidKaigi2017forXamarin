@@ -12,6 +12,7 @@ using DroidKaigi2017.Interface.Session;
 using DroidKaigi2017.Interface.Speaker;
 using DroidKaigi2017.Interface.Topic;
 using Nyanto;
+using Nyanto.Core;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
@@ -58,7 +59,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 				.ObserveProperty(x => x.Count)
 				.ToUnit()
 				.Select(x => { return mySessionService.MySessions.Any(y => y.SessionId == sessionModel.Id); })
-				.ToReadOnlyReactiveProperty(mySessionService.MySessions.Any(x => x.SessionId == sessionModel.Id))
+				.ToReadOnlySwitchReactiveProperty(IsActiveObservable, initialValue:  mySessionService.MySessions.Any(x => x.SessionId == sessionModel.Id))
 				.AddTo(CompositeDisposable);
 
 			CheckCommand = new ReactiveCommand<bool>();
@@ -133,7 +134,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 
 		public ReactiveCommand GoDetailCommand { get; }
 		public ReactiveCommand<bool> CheckCommand { get; }
-		public ReadOnlyReactiveProperty<bool> IsCheckVisible { get; }
+		public IReadOnlyReactiveProperty<bool> IsCheckVisible { get; }
 
 		public bool IsNormalSession => _sessionModel != null && _sessionModel?.Type != SessionType.Break &&
 		                               _sessionModel?.Type != SessionType.Dinner;

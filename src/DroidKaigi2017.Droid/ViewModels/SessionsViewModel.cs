@@ -70,8 +70,13 @@ namespace DroidKaigi2017.Droid.ViewModels
 										new SessionViewModel(_context, y, _mySessionService, _roomService, _speakerService, _topicService, _dateUtil,
 											_navigator))
 									.ToList())
+							.Do(x =>
+							{
+								x.ForEach(y => this.Subscribe(y));
+							})
 							.Select(x => AdjustViewModels(x)))
-					.ToReadOnlySwitchReactiveProperty(switchSource: base.IsActiveObservable, initialValue:new List<SessionViewModel>(), eventScheduler: TaskPoolScheduler.Default)
+					.ToReadOnlySwitchReactiveProperty(switchSource: base.IsActiveObservable,
+						initialValue: new List<SessionViewModel>(), eventScheduler: TaskPoolScheduler.Default)
 					.AddTo(CompositeDisposable)
 				;
 		}

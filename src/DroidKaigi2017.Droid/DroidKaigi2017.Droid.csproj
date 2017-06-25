@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <AndroidSupportedAbis />
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildConfig.cs" />
+    <Compile Include="Mocks\MockFeedbackService.cs" />
     <Compile Include="Mocks\MockMySessionService.cs" />
     <Compile Include="Mocks\MockRoomService.cs" />
     <Compile Include="Mocks\MockSessionService.cs" />
@@ -179,6 +180,8 @@
     <Compile Include="Utils\TopicColor.cs" />
     <Compile Include="Utils\ViewUtil.cs" />
     <Compile Include="ViewModels\SessionDetailViewModel.cs" />
+    <Compile Include="ViewModels\SessionFeedbackViewModel.cs" />
+    <Compile Include="Views\Fragments\SessionFeedbackFragment.cs" />
     <Compile Include="ViewModels\SessionsViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />
     <Compile Include="ViewModels\SettingViewModel.cs" />
@@ -188,11 +191,13 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Activities\SessionDetailActivity.cs" />
+    <Compile Include="Views\Activities\SessionFeedbackActivity.cs" />
     <Compile Include="Views\BindableBase.cs" />
     <Compile Include="Views\ConvertExtentions.cs" />
     <Compile Include="Views\CustomViews\AnonymousAnimatorListener.cs" />
     <Compile Include="Views\CustomViews\ArrayRecyclerAdapter.cs" />
     <Compile Include="Views\CustomViews\BindableRelativeLayout.cs" />
+    <Compile Include="Views\CustomViews\FeedbackRankingView.cs" />
     <Compile Include="Views\CustomViews\OverScrollLayout.cs" />
     <Compile Include="Views\CustomViews\SavedState.cs" />
     <Compile Include="Views\CustomViews\TouchlessTwoWayView.cs" />
@@ -573,6 +578,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-nodpi\img_splash_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\view_feedback_ranking.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\view_feedback_ranking_item.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_session_feedback.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_session_feedback.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -19,7 +19,7 @@ namespace DroidKaigi2017.Droid
 		public FrameLayout content_view { get; }
 		public Android.Support.Design.Widget.BottomNavigationView bottom_nav { get; }
 
-		public activity_main_holder(View view)
+		public activity_main_holder(Activity view)
 		{
 			toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(DroidKaigi2017.Droid.Resource.Id.toolbar);
 			logo = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.logo);
@@ -41,12 +41,29 @@ namespace DroidKaigi2017.Droid
 	{
 		public FrameLayout content_view { get; }
 
-		public activity_session_detail_holder(View view)
+		public activity_session_detail_holder(Activity view)
 		{
 			content_view = view.FindViewById<FrameLayout>(DroidKaigi2017.Droid.Resource.Id.content_view);
 		}
 		public void Dispose()
 		{
+			content_view.Dispose();
+		}
+	}
+
+	public class activity_session_feedback_holder : IDisposable
+	{
+		public Android.Support.V7.Widget.Toolbar toolbar { get; }
+		public FrameLayout content_view { get; }
+
+		public activity_session_feedback_holder(Activity view)
+		{
+			toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(DroidKaigi2017.Droid.Resource.Id.toolbar);
+			content_view = view.FindViewById<FrameLayout>(DroidKaigi2017.Droid.Resource.Id.content_view);
+		}
+		public void Dispose()
+		{
+			toolbar.Dispose();
 			content_view.Dispose();
 		}
 	}
@@ -151,6 +168,38 @@ namespace DroidKaigi2017.Droid
 		}
 	}
 
+	public class fragment_session_feedback_holder : IDisposable
+	{
+		public DroidKaigi2017.Droid.Views.CustomViews.FeedbackRankingView relevancy { get; }
+		public DroidKaigi2017.Droid.Views.CustomViews.FeedbackRankingView asexpected  { get; }
+		public DroidKaigi2017.Droid.Views.CustomViews.FeedbackRankingView difficulty  { get; }
+		public DroidKaigi2017.Droid.Views.CustomViews.FeedbackRankingView knowledgeable  { get; }
+		public EditText comment { get; }
+		public Button submit_feedback { get; }
+		public FrameLayout loading { get; }
+
+		public fragment_session_feedback_holder(View view)
+		{
+			relevancy = view.FindViewById<DroidKaigi2017.Droid.Views.CustomViews.FeedbackRankingView>(DroidKaigi2017.Droid.Resource.Id.relevancy);
+			asexpected  = view.FindViewById<DroidKaigi2017.Droid.Views.CustomViews.FeedbackRankingView>(DroidKaigi2017.Droid.Resource.Id.asexpected );
+			difficulty  = view.FindViewById<DroidKaigi2017.Droid.Views.CustomViews.FeedbackRankingView>(DroidKaigi2017.Droid.Resource.Id.difficulty );
+			knowledgeable  = view.FindViewById<DroidKaigi2017.Droid.Views.CustomViews.FeedbackRankingView>(DroidKaigi2017.Droid.Resource.Id.knowledgeable );
+			comment = view.FindViewById<EditText>(DroidKaigi2017.Droid.Resource.Id.comment);
+			submit_feedback = view.FindViewById<Button>(DroidKaigi2017.Droid.Resource.Id.submit_feedback);
+			loading = view.FindViewById<FrameLayout>(DroidKaigi2017.Droid.Resource.Id.loading);
+		}
+		public void Dispose()
+		{
+			relevancy.Dispose();
+			asexpected .Dispose();
+			difficulty .Dispose();
+			knowledgeable .Dispose();
+			comment.Dispose();
+			submit_feedback.Dispose();
+			loading.Dispose();
+		}
+	}
+
 	public class fragment_settings_holder : IDisposable
 	{
 		public LinearLayout root_view { get; }
@@ -204,6 +253,40 @@ namespace DroidKaigi2017.Droid
 			developer_menu_tips.Dispose();
 			debug_overlay_view_switch_row.Dispose();
 			setting_switch.Dispose();
+		}
+	}
+
+	public class view_feedback_ranking_holder : IDisposable
+	{
+		public LinearLayout ranking_container { get; }
+		public TextView txt_label_start { get; }
+		public TextView txt_label_end { get; }
+
+		public view_feedback_ranking_holder(View view)
+		{
+			ranking_container = view.FindViewById<LinearLayout>(DroidKaigi2017.Droid.Resource.Id.ranking_container);
+			txt_label_start = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_label_start);
+			txt_label_end = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_label_end);
+		}
+		public void Dispose()
+		{
+			ranking_container.Dispose();
+			txt_label_start.Dispose();
+			txt_label_end.Dispose();
+		}
+	}
+
+	public class view_feedback_ranking_item_holder : IDisposable
+	{
+		public TextView txt_ranking { get; }
+
+		public view_feedback_ranking_item_holder(View view)
+		{
+			txt_ranking = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_ranking);
+		}
+		public void Dispose()
+		{
+			txt_ranking.Dispose();
 		}
 	}
 

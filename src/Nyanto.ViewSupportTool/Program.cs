@@ -55,6 +55,7 @@ namespace Nyanto.ViewSupportTool
 		static void CreateClass(StringBuilder sb, string filePath, string nameSpaceName)
 		{
 			var classname = Path.GetFileNameWithoutExtension(filePath) + "_holder";
+			var constractParamClass = classname.Contains("activity") ? "Activity" : "View";
 			var xml = File.ReadAllText(filePath);
 			var xdoc = XDocument.Parse(xml);
 			var reader = xdoc.CreateReader();
@@ -95,7 +96,7 @@ namespace Nyanto.ViewSupportTool
 
 			sb.Append("\t");
 			sb.Append("\t");
-			sb.Append($"public {classname}(View view)");
+			sb.Append($"public {classname}({constractParamClass} view)");
 			sb.AppendLine();
 
 			sb.Append("\t");

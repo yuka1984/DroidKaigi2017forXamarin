@@ -121,9 +121,16 @@ namespace TwoWayview.Layout
 
 		private void offsetLane(int lane, int offset)
 		{
-			mLanes[lane]
-				.Offset(mIsVertical ? 0 : offset,
-					mIsVertical ? offset : 0);
+			try
+			{
+				mLanes[lane]
+					.Offset(mIsVertical ? 0 : offset,
+						mIsVertical ? offset : 0);
+			}
+			catch (Exception e)
+			{
+				System.Diagnostics.Trace.TraceWarning("offsetLane" , e);
+			}
 		}
 
 		public void offset(int offset)

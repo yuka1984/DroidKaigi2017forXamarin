@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using DroidKaigi2017.Droid.ViewModels;
@@ -14,6 +15,8 @@ namespace DroidKaigi2017.Droid.Utils
 	{
 		void ReStart();
 		void NavigateTo(string key, params object[] param);
+
+		Task<bool> DisplayAlert(int titleResId, int messageResId, int okResId, int cancelResId);
 		void OpenUrl(string url);
 		void Finish();
 	}
@@ -21,6 +24,7 @@ namespace DroidKaigi2017.Droid.Utils
 	public static class NavigationKey
 	{
 		public const string GoSessionDetail = "SessionDetail";
+		public const string GoSessionFeedBack = "SessonFeedBack";
 	}
 
 	public class Navigator : INavigator
@@ -46,7 +50,25 @@ namespace DroidKaigi2017.Droid.Utils
 				case NavigationKey.GoSessionDetail:
 					NavigateToSessionDetail((SessionViewModel)param[0]);
 					break;
+				case NavigationKey.GoSessionFeedBack:
+					NavigateToSessionFeedBack((int)param[0]);
+					break;
+					
 			}
+		}
+
+		public Task<bool> DisplayAlert(int titleResId, int messageResId, int okResId, int cancelResId)
+		{
+			var taskCompletionSource = new TaskCompletionSource<bool>();
+
+			new AlertDialog.Builder(_MainActivity, Resource.Style.DialogTheme)
+				.SetTitle(titleResId)
+				.SetMessage(messageResId)
+				.SetPositiveButton(okResId, (sender, args) => {taskCompletionSource.SetResult(true);})
+				.SetNegativeButton(cancelResId, (sender, args) =>{taskCompletionSource.SetResult(false);})
+				.Show();
+
+			return taskCompletionSource.Task;
 		}
 
 		public void OpenUrl(string url)
@@ -65,6 +87,11 @@ namespace DroidKaigi2017.Droid.Utils
 		{
 			_MainActivity.StartActivity(
 				SessionDetailActivity.createIntent(_MainActivity, sessionViewModel.SessionId, typeof(MainActivity)));
+		}
+
+		private void NavigateToSessionFeedBack(int sessionId)
+		{
+			_MainActivity.StartActivity(SessionFeedbackActivity.CreateIntent(_MainActivity, sessionId));
 		}
 	}
 }

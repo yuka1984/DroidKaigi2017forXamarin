@@ -211,7 +211,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 				.AddTo(CompositeDisposable);
 
 			FeedBackCommand = new ReactiveCommand();
-			FeedBackCommand.Subscribe(x => { }).AddTo(CompositeDisposable);
+			FeedBackCommand.Subscribe(x => {_navigator.NavigateTo(NavigationKey.GoSessionFeedBack, SessionId.Value); }).AddTo(CompositeDisposable);
 
 			CloseCommand = new ReactiveCommand();
 			CloseCommand.Subscribe(x =>

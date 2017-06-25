@@ -13,6 +13,8 @@ using DroidKaigi2017.Interface.Room;
 using DroidKaigi2017.Interface.Session;
 using DroidKaigi2017.Interface.Speaker;
 using DroidKaigi2017.Interface.Topic;
+using Microsoft.Azure.Mobile;
+using Microsoft.Azure.Mobile.Crashes;
 using Nyanto;
 using Reactive.Bindings;
 
@@ -27,6 +29,7 @@ namespace DroidKaigi2017.Droid
 			: base(javaReference, transfer)
 		{
 			ReactivePropertyScheduler.SetDefault(TaskPoolScheduler.Default);
+			MobileCenter.Start("7415fae6-0dd6-463d-b347-2ce8d24a100f",　typeof(Crashes));
 		}
 
 		protected override void ContainerSetting(ContainerBuilder builder)

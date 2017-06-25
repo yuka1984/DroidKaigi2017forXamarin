@@ -6,11 +6,8 @@ using System.Reactive.Linq;
 using Android.Content;
 using DroidKaigi2017.Droid.Annotations;
 using DroidKaigi2017.Droid.Utils;
-using DroidKaigi2017.Interface.MySession;
-using DroidKaigi2017.Interface.Room;
-using DroidKaigi2017.Interface.Session;
-using DroidKaigi2017.Interface.Speaker;
-using DroidKaigi2017.Interface.Topic;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 using Nyanto;
 using Nyanto.Core;
 using Reactive.Bindings;
@@ -25,50 +22,50 @@ namespace DroidKaigi2017.Droid.ViewModels
 		private readonly int? _colSpan;
 		private readonly Context _context;
 		private readonly IDateUtil _dateUtil;
-		private readonly IMySessionService _mySessionService;
+		private readonly IMySessionRepository _mySessionRepository;
 		private readonly RoomModel _roomModel;
-		private readonly IRoomService _roomService;
+		private readonly IRoomRepository _roomRepository;
 
 		private readonly int? _rowSpan;
 		private readonly SessionModel _sessionModel;
 		private readonly SpeakerModel _speakerModel;
-		private readonly ISpeakerService _speakerService;
-		private readonly Topic _topic;
-		private readonly ITopicService _topicService;
+		private readonly ISpeakerRepository _speakerRepository;
+		private readonly TopicModel _topicModel;
+		private readonly ITopicRepository _topicRepository;
 		private readonly INavigator _navigator;
 
-		public SessionViewModel(Context context, SessionModel sessionModel, IMySessionService mySessionService,
-			IRoomService roomService,
-			ISpeakerService speakerService, ITopicService topicService, IDateUtil dateUtil, INavigator navigator)
+		public SessionViewModel(Context context, SessionModel sessionModel, IMySessionRepository mySessionRepository,
+			IRoomRepository roomRepository,
+			ISpeakerRepository speakerRepository, ITopicRepository topicRepository, IDateUtil dateUtil, INavigator navigator)
 		{
 			_context = context;
-			_mySessionService = mySessionService;
-			_roomService = roomService;
-			_speakerService = speakerService;
-			_topicService = topicService;
+			_mySessionRepository = mySessionRepository;
+			_roomRepository = roomRepository;
+			_speakerRepository = speakerRepository;
+			_topicRepository = topicRepository;
 			_sessionModel = sessionModel;
 			_dateUtil = dateUtil;
 			_navigator = navigator;
 
-			_speakerModel = _speakerService.SpealersObservable.Value?.FirstOrDefault(x => x.Id == sessionModel.SpeakerId);
-			_roomModel = _roomService.RoomsObservable.Value?.FirstOrDefault(x => x.Id == sessionModel.RoomId);
-			_topic = _topicService.TopicsObservable.Value?.FirstOrDefault(x => x.Id == _sessionModel?.Id);
+			_speakerModel = _speakerRepository.SpealersObservable.Value?.FirstOrDefault(x => x.Id == sessionModel.SpeakerId);
+			_roomModel = _roomRepository.RoomsObservable.Value?.FirstOrDefault(x => x.Id == sessionModel.RoomId);
+			_topicModel = _topicRepository.TopicsObservable.Value?.FirstOrDefault(x => x.Id == _sessionModel?.Id);
 
-			RoomCount = roomService.RoomsObservable?.Value.Length ?? 0;
-			IsCheckVisible = mySessionService.MySessions
+			RoomCount = roomRepository.RoomsObservable?.Value.Length ?? 0;
+			IsCheckVisible = mySessionRepository.MySessions
 				.ObserveProperty(x => x.Count)
 				.ToUnit()
-				.Select(x => { return mySessionService.MySessions.Any(y => y.SessionId == sessionModel.Id); })
-				.ToReadOnlySwitchReactiveProperty(IsActiveObservable, initialValue:  mySessionService.MySessions.Any(x => x.SessionId == sessionModel.Id))
+				.Select(x => { return mySessionRepository.MySessions.Any(y => y.SessionId == sessionModel.Id); })
+				.ToReadOnlySwitchReactiveProperty(IsActiveObservable, initialValue:  mySessionRepository.MySessions.Any(x => x.SessionId == sessionModel.Id))
 				.AddTo(CompositeDisposable);
 
 			CheckCommand = new ReactiveCommand<bool>();
 			CheckCommand.Subscribe(x =>
 			{
 				if (x)
-					_mySessionService.Add(sessionModel.Id);
+					_mySessionRepository.Add(sessionModel.Id);
 				else
-					_mySessionService.Remove(sessionModel.Id);
+					_mySessionRepository.Remove(sessionModel.Id);
 			});
 
 			GoDetailCommand = new ReactiveCommand();
@@ -123,8 +120,8 @@ namespace DroidKaigi2017.Droid.ViewModels
 		{
 			get
 			{
-				if (_topic != null && IsSelectable)
-					return TopicColor.GettopiColor(_topic).MiddleColorResId;
+				if (_topicModel != null && IsSelectable)
+					return TopicColor.GettopiColor(_topicModel).MiddleColorResId;
 				return Android.Resource.Color.Transparent;
 			}
 		}

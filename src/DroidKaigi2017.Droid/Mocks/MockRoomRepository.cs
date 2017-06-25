@@ -3,20 +3,21 @@
 using System;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
-using DroidKaigi2017.Interface.Room;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 using Reactive.Bindings;
 
 #endregion
 
 namespace DroidKaigi2017.Droid.Mocks
 {
-	public class MockRoomService : IRoomService
+	public class MockRoomRepository : IRoomRepository
 	{
 		private readonly ReactiveProperty<RoomModel[]> _roomProperty;
 
 		private bool IsDirty = true;
 
-		public MockRoomService()
+		public MockRoomRepository()
 		{
 			_roomProperty = new ReactiveProperty<RoomModel[]>(initialValue: Array.Empty<RoomModel>(),
 				raiseEventScheduler: TaskPoolScheduler.Default);

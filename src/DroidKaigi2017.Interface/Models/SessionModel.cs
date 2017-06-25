@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace DroidKaigi2017.Interface.Session
+namespace DroidKaigi2017.Interface.Models
 {
 	public class SessionModel
 	{

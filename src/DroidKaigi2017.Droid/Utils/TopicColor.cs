@@ -1,7 +1,7 @@
 ﻿#region
 
 using System;
-using DroidKaigi2017.Interface.Topic;
+using DroidKaigi2017.Interface.Models;
 
 #endregion
 
@@ -62,15 +62,15 @@ namespace DroidKaigi2017.Droid.Utils
 
 		public int ThemeId { get; }
 
-		public static TopicColor GettopiColor(Topic topic)
+		public static TopicColor GettopiColor(TopicModel topicModel)
 		{
-			if (topic == null)
+			if (topicModel == null)
 				return None;
-			if (topic.Id < 0)
+			if (topicModel.Id < 0)
 				return None;
-			if (topic.Id >= Values.Length)
+			if (topicModel.Id >= Values.Length)
 				return None;
-			return Values[topic.Id];
+			return Values[topicModel.Id];
 		}
 	}
 }

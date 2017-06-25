@@ -1,4 +1,4 @@
-﻿namespace DroidKaigi2017.Interface.MySession
+﻿namespace DroidKaigi2017.Interface.Models
 {
 	public class MySessionModel
 	{

@@ -8,11 +8,8 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Android.Content;
 using DroidKaigi2017.Droid.Utils;
-using DroidKaigi2017.Interface.MySession;
-using DroidKaigi2017.Interface.Room;
-using DroidKaigi2017.Interface.Session;
-using DroidKaigi2017.Interface.Speaker;
-using DroidKaigi2017.Interface.Topic;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 using Nyanto;
 using Nyanto.Core;
 using Reactive.Bindings;
@@ -27,48 +24,48 @@ namespace DroidKaigi2017.Droid.ViewModels
 	{
 		private readonly Context _context;
 		private readonly IDateUtil _dateUtil;
-		private readonly IMySessionService _mySessionService;
-		private readonly IRoomService _roomService;
-		private readonly ISessionService _sessionService;
-		private readonly ISpeakerService _speakerService;
-		private readonly ITopicService _topicService;
+		private readonly IMySessionRepository _mySessionRepository;
+		private readonly IRoomRepository _roomRepository;
+		private readonly ISessionRepository _sessionRepository;
+		private readonly ISpeakerRepository _speakerRepository;
+		private readonly ITopicRepository _topicRepository;
 		private readonly INavigator _navigator;
 
 		public readonly BusyNotifier BusyNotifier = new BusyNotifier();
 
-		public SessionsViewModel(ISessionService sessionService, IRoomService roomService, IMySessionService mySessionService,
-			IDateUtil dateUtil, Context context, ISpeakerService speakerService, ITopicService topicService, INavigator navigator)
+		public SessionsViewModel(ISessionRepository sessionRepository, IRoomRepository roomRepository, IMySessionRepository mySessionRepository,
+			IDateUtil dateUtil, Context context, ISpeakerRepository speakerRepository, ITopicRepository topicRepository, INavigator navigator)
 		{
-			_sessionService = sessionService;
-			_roomService = roomService;
-			_mySessionService = mySessionService;
+			_sessionRepository = sessionRepository;
+			_roomRepository = roomRepository;
+			_mySessionRepository = mySessionRepository;
 			_dateUtil = dateUtil;
 			_context = context;
-			_speakerService = speakerService;
-			_topicService = topicService;
+			_speakerRepository = speakerRepository;
+			_topicRepository = topicRepository;
 			_navigator = navigator;
 
 			var dispose = BusyNotifier.ProcessStart();
 			var loadingObservable = Observable.FromAsync(() =>
 				Task
 					.WhenAll(
-						_sessionService.LoadAsync()
-						, _roomService.LoadAsync()
-						, _speakerService.LoadAsync()
-						, _topicService.LoadAsync())
+						_sessionRepository.LoadAsync()
+						, _roomRepository.LoadAsync()
+						, _speakerRepository.LoadAsync()
+						, _topicRepository.LoadAsync())
 					.ContinueWith(task => dispose.Dispose()));
 
 			SessionsObservable = loadingObservable.Select(x => new List<SessionViewModel>())
 					.Concat(
-						_sessionService.SessionsObservable
+						_sessionRepository.SessionsObservable
 							.Do(x => { StartTimes = x.Select(y => y.StartTime).Distinct().ToList(); })
 							.CombineLatest(
-								_roomService.RoomsObservable.Do(x => SessionRooms = x.ToList()),
-								_speakerService.SpealersObservable,
-								_topicService.TopicsObservable, (session, room, speaker, topic) => new {session, room, speaker, topic})
+								_roomRepository.RoomsObservable.Do(x => SessionRooms = x.ToList()),
+								_speakerRepository.SpealersObservable,
+								_topicRepository.TopicsObservable, (session, room, speaker, topic) => new {session, room, speaker, topic})
 							.Select(x =>
 								x.session.Select(y =>
-										new SessionViewModel(_context, y, _mySessionService, _roomService, _speakerService, _topicService, _dateUtil,
+										new SessionViewModel(_context, y, _mySessionRepository, _roomRepository, _speakerRepository, _topicRepository, _dateUtil,
 											_navigator))
 									.ToList())
 							.Do(x =>
@@ -102,7 +99,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 			{
 				var roomname = sessionViewModel.RoomName;
 				if (string.IsNullOrEmpty(roomname))
-					roomname = _roomService.RoomsObservable.Value?.FirstOrDefault()?.Name;
+					roomname = _roomRepository.RoomsObservable.Value?.FirstOrDefault()?.Name;
 				var key = GenerateStimeRoomKey(sessionViewModel.StartTime, roomname);
 				if (!sessionMap.ContainsKey(key))
 					sessionMap.Add(key, sessionViewModel);

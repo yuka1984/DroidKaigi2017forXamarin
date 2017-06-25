@@ -6,8 +6,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
-using DroidKaigi2017.Interface.Session;
-using DroidKaigi2017.Interface.Topic;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 using Newtonsoft.Json;
 using Reactive.Bindings;
 
@@ -15,13 +15,13 @@ using Reactive.Bindings;
 
 namespace DroidKaigi2017.Droid.Mocks
 {
-	public class MockSessionService : ISessionService
+	public class MockSessionRepository : ISessionRepository
 	{
 		private readonly ReactiveProperty<List<SessionModel>> _sessionReactiveProperty;
 
 		private bool IsDirty = true;
 
-		public MockSessionService()
+		public MockSessionRepository()
 		{
 			_sessionReactiveProperty = new ReactiveProperty<List<SessionModel>>(initialValue: new List<SessionModel>(),
 				raiseEventScheduler: TaskPoolScheduler.Default);
@@ -57,7 +57,7 @@ namespace DroidKaigi2017.Droid.Mocks
 					MovieUrl = x.MovieUrl,
 					ShareUrl = x.ShareUrl,
 					SlideUrl = x.SlideUrl,
-					TopicId = x.Topic?.Id ?? 0,
+					TopicId = x.TopicModel?.Id ?? 0,
 					Description = x.Description
 				})
 				.ToList();
@@ -96,7 +96,7 @@ namespace DroidKaigi2017.Droid.Mocks
 			public string Type { get; set; }
 
 			[JsonProperty("topic")]
-			public Topic Topic { get; set; }
+			public TopicModel TopicModel { get; set; }
 
 			[JsonProperty("room")]
 			public Room Room { get; set; }

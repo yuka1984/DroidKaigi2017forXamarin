@@ -10,13 +10,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using DroidKaigi2017.Interface.Feedback;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 
 namespace DroidKaigi2017.Droid.Mocks
 {
-	public class MockFeedbackService: IFeedbackService
+	public class MockFeedbackRepository: IFeedbackRepository
 	{
-		public MockFeedbackService()
+		public MockFeedbackRepository()
 		{
 			_feedbacks = new ObservableCollection<SessionFeedbackModel>();
 			Feedbacks = new ReadOnlyObservableCollection<SessionFeedbackModel>(_feedbacks);

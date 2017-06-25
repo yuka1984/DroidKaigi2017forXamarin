@@ -5,18 +5,19 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
-using DroidKaigi2017.Interface.MySession;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 using Reactive.Bindings;
 
 #endregion
 
 namespace DroidKaigi2017.Droid.Mocks
 {
-	public class MockMySessionService : IMySessionService
+	public class MockMySessionRepository : IMySessionRepository
 	{
 		private readonly ObservableCollection<MySessionModel> _mySession;
 
-		public MockMySessionService()
+		public MockMySessionRepository()
 		{
 			_mySession = new ObservableCollection<MySessionModel>();
 			MySessions = _mySession.ToReadOnlyReactiveCollection(TaskPoolScheduler.Default);

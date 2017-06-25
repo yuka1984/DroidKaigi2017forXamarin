@@ -11,8 +11,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using DroidKaigi2017.Droid.Utils;
-using DroidKaigi2017.Interface.Feedback;
-using DroidKaigi2017.Interface.Session;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 using Nyanto;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
@@ -22,17 +22,17 @@ namespace DroidKaigi2017.Droid.ViewModels
 {
 	public class SessionFeedbackViewModel : ViewModelBase
 	{
-		private readonly ISessionService _sessionService;
-		private readonly IFeedbackService _feedbackService;
+		private readonly ISessionRepository _sessionRepository;
+		private readonly IFeedbackRepository _feedbackRepository;
 		private readonly INavigator _navigator;
 		private IDisposable _busyDisposable;
 		private SessionModel _sessionModel;
 		private readonly ReactiveProperty<SessionFeedbackModel> _feedbackModel = new ReactiveProperty<SessionFeedbackModel>();
 
-		public SessionFeedbackViewModel(ISessionService sessionService, IFeedbackService feedbackService, INavigator navigator)
+		public SessionFeedbackViewModel(ISessionRepository sessionRepository, IFeedbackRepository feedbackRepository, INavigator navigator)
 		{
-			_sessionService = sessionService;
-			_feedbackService = feedbackService;
+			_sessionRepository = sessionRepository;
+			_feedbackRepository = feedbackRepository;
 			_navigator = navigator;
 
 			BusyNotifier = new BusyNotifier();
@@ -65,7 +65,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 				{
 					using (_busyDisposable = BusyNotifier.ProcessStart())
 					{
-						await _feedbackService.SubmitAsync(new SessionFeedbackModel
+						await _feedbackRepository.SubmitAsync(new SessionFeedbackModel
 						{
 							SessionId = _sessionModel.Id,
 							SessionTitle = _sessionModel.Title,
@@ -83,12 +83,12 @@ namespace DroidKaigi2017.Droid.ViewModels
 
 			LoadCommand.Subscribe(x =>
 			{
-				if (_sessionService.SessionsObservable.Value.Any(y => y.Id == x))
+				if (_sessionRepository.SessionsObservable.Value.Any(y => y.Id == x))
 				{
-					_sessionModel = _sessionService.SessionsObservable.Value.First(y => y.Id == x);
-					if (_feedbackService.Feedbacks.Any(y => y.SessionId == x))
+					_sessionModel = _sessionRepository.SessionsObservable.Value.First(y => y.Id == x);
+					if (_feedbackRepository.Feedbacks.Any(y => y.SessionId == x))
 					{
-						var feedback = feedbackService.Feedbacks.First(y => y.SessionId == x);
+						var feedback = feedbackRepository.Feedbacks.First(y => y.SessionId == x);
 						Relevancy.Value = feedback.Relevancy;
 						AsExpected.Value = feedback.AsExpected;
 						Difficulty.Value = feedback.Difficulty;
@@ -114,7 +114,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 			{
 				if (x.OldItem == true && x.NewItem == false)
 				{
-					_feedbackService.SaveAsync(new SessionFeedbackModel
+					_feedbackRepository.SaveAsync(new SessionFeedbackModel
 					{
 						SessionId = _sessionModel.Id,
 						SessionTitle = _sessionModel.Title,

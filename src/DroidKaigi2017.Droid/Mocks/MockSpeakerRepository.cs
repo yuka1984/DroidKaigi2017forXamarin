@@ -5,8 +5,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
-using DroidKaigi2017.Interface.Session;
-using DroidKaigi2017.Interface.Speaker;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 using Newtonsoft.Json;
 using Reactive.Bindings;
 
@@ -14,13 +14,13 @@ using Reactive.Bindings;
 
 namespace DroidKaigi2017.Droid.Mocks
 {
-	public class MockSpeakerService : ISpeakerService
+	public class MockSpeakerRepository : ISpeakerRepository
 	{
 		private readonly ReactiveProperty<List<SpeakerModel>> _speakerProperty;
 
 		private bool IsDirty = true;
 
-		public MockSpeakerService()
+		public MockSpeakerRepository()
 		{
 			_speakerProperty = new ReactiveProperty<List<SpeakerModel>>(initialValue: new List<SpeakerModel>(),
 				raiseEventScheduler: TaskPoolScheduler.Default);
@@ -36,7 +36,7 @@ namespace DroidKaigi2017.Droid.Mocks
 			await Task.Delay(5000).ConfigureAwait(false);
 			var httpClient = new HttpClient();
 			var r = await httpClient.GetStringAsync("https://droidkaigi.github.io/2017/sessions.json");
-			var ent = JsonConvert.DeserializeObject<List<MockSessionService.Session>>(r);
+			var ent = JsonConvert.DeserializeObject<List<MockSessionRepository.Session>>(r);
 
 			_speakerProperty.Value = ent.Select(x => new SpeakerModel
 				{

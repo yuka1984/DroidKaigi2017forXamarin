@@ -13,11 +13,8 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using DroidKaigi2017.Droid.Utils;
-using DroidKaigi2017.Interface.MySession;
-using DroidKaigi2017.Interface.Room;
-using DroidKaigi2017.Interface.Session;
-using DroidKaigi2017.Interface.Speaker;
-using DroidKaigi2017.Interface.Topic;
+using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Repository;
 using Java.Net;
 using Java.Util;
 using Javax.Security.Auth;
@@ -32,21 +29,21 @@ namespace DroidKaigi2017.Droid.ViewModels
 {
 	public class SessionDetailViewModel : ViewModelBase
 	{
-		private readonly ISessionService _sessionService;
-		private readonly IMySessionService _mySessionService;
-		private readonly IRoomService _roomService;
-		private readonly ITopicService _topicService;
-		private readonly ISpeakerService _speakerService;
+		private readonly ISessionRepository _sessionRepository;
+		private readonly IMySessionRepository _mySessionRepository;
+		private readonly IRoomRepository _roomRepository;
+		private readonly ITopicRepository _topicRepository;
+		private readonly ISpeakerRepository _speakerRepository;
 		private readonly INavigator _navigator;
 		private readonly LocaleUtil _localeUtil;
 
-		public SessionDetailViewModel(ISessionService sessionService, IMySessionService mySessionService, IRoomService roomService, ITopicService topicService, ISpeakerService speakerService, LocaleUtil localeUtil, INavigator navigator)
+		public SessionDetailViewModel(ISessionRepository sessionRepository, IMySessionRepository mySessionRepository, IRoomRepository roomRepository, ITopicRepository topicRepository, ISpeakerRepository speakerRepository, LocaleUtil localeUtil, INavigator navigator)
 		{
-			_sessionService = sessionService;
-			_mySessionService = mySessionService;
-			_roomService = roomService;
-			_topicService = topicService;
-			_speakerService = speakerService;
+			_sessionRepository = sessionRepository;
+			_mySessionRepository = mySessionRepository;
+			_roomRepository = roomRepository;
+			_topicRepository = topicRepository;
+			_speakerRepository = speakerRepository;
 			_localeUtil = localeUtil;
 			_navigator = navigator;
 
@@ -55,10 +52,10 @@ namespace DroidKaigi2017.Droid.ViewModels
 
 			 var dataObserver = Observable.CombineLatest(
 				_selectedSessionidSubject,
-				_sessionService.SessionsObservable,
-				_roomService.RoomsObservable,
-				_topicService.TopicsObservable,
-				_speakerService.SpealersObservable,
+				_sessionRepository.SessionsObservable,
+				_roomRepository.RoomsObservable,
+				_topicRepository.TopicsObservable,
+				_speakerRepository.SpealersObservable,
 				(id, sessions, rooms, topics, speakers) => new {id, sessions, rooms, topics, speakers}
 			)
 			.Do(x=> busyDispose.Dispose())
@@ -143,14 +140,14 @@ namespace DroidKaigi2017.Droid.ViewModels
 				.AddTo(CompositeDisposable);
 
 
-			isMySession = _mySessionService.MySessions.ObserveProperty(x => x.Count)
+			isMySession = _mySessionRepository.MySessions.ObserveProperty(x => x.Count)
 				.CombineLatest(dataObserver.Select(x => x?.session), (c, s) => s)
 				.Select(session =>
 				{
 					if (session == null)
 						return false;
 
-					return _mySessionService.MySessions.Any(y => y.SessionId == session.Id);
+					return _mySessionRepository.MySessions.Any(y => y.SessionId == session.Id);
 				})
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
@@ -176,11 +173,11 @@ namespace DroidKaigi2017.Droid.ViewModels
 				{
 					if (isMySession.Value)
 					{
-						_mySessionService.Remove(SessionId.Value.Value);
+						_mySessionRepository.Remove(SessionId.Value.Value);
 					}
 					else
 					{
-						_mySessionService.Add(SessionId.Value.Value);
+						_mySessionRepository.Add(SessionId.Value.Value);
 					}
 				}
 				

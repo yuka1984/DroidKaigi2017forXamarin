@@ -8,12 +8,7 @@ using Autofac;
 using DroidKaigi2017.Droid.Mocks;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Droid.ViewModels;
-using DroidKaigi2017.Interface.Feedback;
-using DroidKaigi2017.Interface.MySession;
-using DroidKaigi2017.Interface.Room;
-using DroidKaigi2017.Interface.Session;
-using DroidKaigi2017.Interface.Speaker;
-using DroidKaigi2017.Interface.Topic;
+using DroidKaigi2017.Interface.Repository;
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Crashes;
 using Nyanto;
@@ -42,12 +37,12 @@ namespace DroidKaigi2017.Droid
 			builder.Register(c => { return new AppSettings(Context); }).As<IAppSettings>().SingleInstance();
 			builder.RegisterType<LocaleUtil>().SingleInstance();
 
-			builder.RegisterType<MockRoomService>().As<IRoomService>().SingleInstance();
-			builder.RegisterType<MockSessionService>().As<ISessionService>().SingleInstance();
-			builder.RegisterType<MockSpeakerService>().As<ISpeakerService>().SingleInstance();
-			builder.RegisterType<MockTopicService>().As<ITopicService>().SingleInstance();
-			builder.RegisterType<MockMySessionService>().As<IMySessionService>().SingleInstance();
-			builder.RegisterType<MockFeedbackService>().As<IFeedbackService>().SingleInstance();
+			builder.RegisterType<MockRoomRepository>().As<IRoomRepository>().SingleInstance();
+			builder.RegisterType<MockSessionRepository>().As<ISessionRepository>().SingleInstance();
+			builder.RegisterType<MockSpeakerRepository>().As<ISpeakerRepository>().SingleInstance();
+			builder.RegisterType<MockTopicRepository>().As<ITopicRepository>().SingleInstance();
+			builder.RegisterType<MockMySessionRepository>().As<IMySessionRepository>().SingleInstance();
+			builder.RegisterType<MockFeedbackRepository>().As<IFeedbackRepository>().SingleInstance();
 
 			// Activity LyfeTime
 

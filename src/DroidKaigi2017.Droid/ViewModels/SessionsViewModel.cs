@@ -15,6 +15,7 @@ using DroidKaigi2017.Interface.Speaker;
 using DroidKaigi2017.Interface.Topic;
 using Nyanto;
 using Nyanto.Core;
+using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Notifiers;
 
@@ -79,9 +80,17 @@ namespace DroidKaigi2017.Droid.ViewModels
 						initialValue: new List<SessionViewModel>(), eventScheduler: TaskPoolScheduler.Default)
 					.AddTo(CompositeDisposable)
 				;
+
+			GoSearchCommand = BusyNotifier.Inverse().ToReactiveCommand();
+			GoSearchCommand.Subscribe(x =>
+			{
+				_navigator.NavigateTo(NavigationKey.GoSearch);
+			});
 		}
 
 		public IObservable<List<SessionViewModel>> SessionsObservable { get; }
+
+		public ReactiveCommand GoSearchCommand { get;}
 		public List<RoomModel> SessionRooms { get; private set; }
 		public List<DateTimeOffset> StartTimes { get; private set; }
 

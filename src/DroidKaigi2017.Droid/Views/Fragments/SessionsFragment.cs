@@ -15,12 +15,14 @@ using Android.Widget;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Droid.ViewModels;
 using DroidKaigi2017.Droid.Views.CustomViews;
+using Java.Lang;
 using Nyanto;
 using Nyanto.Binding;
 using Reactive.Bindings.Extensions;
 using TwoWayView.Core;
 using TwoWayView.Layout;
 using DividerItemDecoration = TwoWayView.Layout.DividerItemDecoration;
+using Exception = System.Exception;
 
 #endregion
 
@@ -41,8 +43,29 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 		public ViewUtil ViewUtil { get; set; }
 		public override int ViewResourceId => Resource.Layout.fragment_sessions;
 
+		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+		{
+			inflater.Inflate(Resource.Menu.menu_sessions, menu);
+			//se.OnCreateOptionsMenu(menu, inflater);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+				case Resource.Id.item_search:
+					ViewModel.GoSearchCommand.CheckExecute(this);
+					break;
+				case Resource.Id.item_my_sessions:
+					// TODO:MySessionOpen
+					break;
+			}
+			return base.OnOptionsItemSelected(item);
+		}
+
 		protected override void Bind(View view)
 		{
+			HasOptionsMenu = true;
 			recycleView = view.FindViewById<TouchlessTwoWayView>(Resource.Id.recycler_view);
 			root = view.FindViewById<HorizontalScrollView>(Resource.Id.root);
 			headerRow = view.FindViewById<LinearLayout>(Resource.Id.header_row);

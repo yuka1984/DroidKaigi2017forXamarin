@@ -25,6 +25,7 @@ namespace DroidKaigi2017.Droid.Utils
 	{
 		public const string GoSessionDetail = "SessionDetail";
 		public const string GoSessionFeedBack = "SessonFeedBack";
+		public const string GoSearch = "GoSearch";
 	}
 
 	public class Navigator : INavigator
@@ -52,6 +53,9 @@ namespace DroidKaigi2017.Droid.Utils
 					break;
 				case NavigationKey.GoSessionFeedBack:
 					NavigateToSessionFeedBack((int)param[0]);
+					break;
+				case NavigationKey.GoSearch:
+					NavigateToSearch();
 					break;
 					
 			}
@@ -92,6 +96,11 @@ namespace DroidKaigi2017.Droid.Utils
 		private void NavigateToSessionFeedBack(int sessionId)
 		{
 			_MainActivity.StartActivity(SessionFeedbackActivity.CreateIntent(_MainActivity, sessionId));
+		}
+
+		private void NavigateToSearch()
+		{
+			_MainActivity.StartActivity(SearchActivity.CreateIntent(_MainActivity));
 		}
 	}
 }

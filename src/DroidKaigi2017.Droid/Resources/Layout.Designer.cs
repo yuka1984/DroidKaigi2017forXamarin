@@ -37,6 +37,26 @@ namespace DroidKaigi2017.Droid
 		}
 	}
 
+	public class activity_search_holder : IDisposable
+	{
+		public RelativeLayout root { get; }
+		public Android.Support.V7.Widget.Toolbar toolbar { get; }
+		public FrameLayout content_view { get; }
+
+		public activity_search_holder(Activity view)
+		{
+			root = view.FindViewById<RelativeLayout>(DroidKaigi2017.Droid.Resource.Id.root);
+			toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(DroidKaigi2017.Droid.Resource.Id.toolbar);
+			content_view = view.FindViewById<FrameLayout>(DroidKaigi2017.Droid.Resource.Id.content_view);
+		}
+		public void Dispose()
+		{
+			root.Dispose();
+			toolbar.Dispose();
+			content_view.Dispose();
+		}
+	}
+
 	public class activity_session_detail_holder : IDisposable
 	{
 		public FrameLayout content_view { get; }
@@ -65,6 +85,23 @@ namespace DroidKaigi2017.Droid
 		{
 			toolbar.Dispose();
 			content_view.Dispose();
+		}
+	}
+
+	public class fragment_search_holder : IDisposable
+	{
+		public RelativeLayout cover { get; }
+		public Android.Support.V7.Widget.RecyclerView recycler_view { get; }
+
+		public fragment_search_holder(View view)
+		{
+			cover = view.FindViewById<RelativeLayout>(DroidKaigi2017.Droid.Resource.Id.cover);
+			recycler_view = view.FindViewById<Android.Support.V7.Widget.RecyclerView>(DroidKaigi2017.Droid.Resource.Id.recycler_view);
+		}
+		public void Dispose()
+		{
+			cover.Dispose();
+			recycler_view.Dispose();
 		}
 	}
 

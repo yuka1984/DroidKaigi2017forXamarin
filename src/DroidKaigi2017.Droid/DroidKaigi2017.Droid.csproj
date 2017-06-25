@@ -187,7 +187,6 @@
     <Compile Include="Views\Fragments\SessionsFragment.cs" />
     <Compile Include="Views\Fragments\SettingsFragment.cs" />
     <Compile Include="Views\CustomViews\SettingSwitchRowView.cs" />
-    <Compile Include="Views\helpers\BindingHelper.cs" />
     <Compile Include="Views\helpers\BottomNavigationViewHelper.cs" />
   </ItemGroup>
   <ItemGroup>

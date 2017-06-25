@@ -1,10 +1,12 @@
-﻿#region
+﻿	#region
 
 using System;
 using System.Reactive.Linq;
 using Android.App;
 using Android.Graphics;
 using Android.Support.V4.Content;
+using Android.Support.V4.Widget;
+using Android.Support.V7.App;
 using Android.Views;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Droid.ViewModels;
@@ -15,6 +17,7 @@ using Nyanto;
 using Nyanto.Binding;
 using Reactive.Bindings.Extensions;
 using TwoWayView.Core;
+using ActionBar = Android.App.ActionBar;
 using Uri = Android.Net.Uri;
 
 #endregion
@@ -136,8 +139,44 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 			{
 				ViewModel.CloseCommand.CheckExecute(this);
 			}} );
+
+			accessor.nested_scroll.SetOnScrollChangeListener(new AnonymousOnScrollChangeListener
+			{
+				OnScrollChangeAction = (v, x, y, ox, oy) =>
+				{
+					if (y > oy)
+					{
+						accessor.fab.Hide();
+					}
+					if (y < oy)
+					{
+						accessor.fab.Show();
+					}
+				}
+			});
+			
+
+			var activity = ((AppCompatActivity)Activity);
+			activity.SetSupportActionBar(accessor.toolbar);
+			var bar = activity.SupportActionBar;
+			if (bar != null)
+			{
+				bar.SetDisplayHomeAsUpEnabled(true);
+				bar.SetDisplayShowHomeEnabled(true);
+				bar.SetDisplayShowTitleEnabled(false);
+				bar.SetHomeButtonEnabled(true);
+			}
 		}
 
 		
+	}
+
+	public class AnonymousOnScrollChangeListener : Java.Lang.Object, NestedScrollView.IOnScrollChangeListener
+	{
+		public Action<NestedScrollView, int, int, int, int> OnScrollChangeAction { get; set; }
+		public void OnScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY)
+		{
+			OnScrollChangeAction?.Invoke(v, scrollX, scrollY, oldScrollX, oldScrollY);
+		}
 	}
 }

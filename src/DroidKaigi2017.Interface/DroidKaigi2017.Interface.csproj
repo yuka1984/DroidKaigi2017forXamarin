@@ -8,8 +8,4 @@
     <PackageReference Include="ReactiveProperty" Version="4.0.0-pre3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

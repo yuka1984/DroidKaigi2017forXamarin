@@ -3,12 +3,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Content.Res;
+using Android.Support.V4.View;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -23,6 +25,7 @@ using TwoWayView.Core;
 using TwoWayView.Layout;
 using DividerItemDecoration = TwoWayView.Layout.DividerItemDecoration;
 using Exception = System.Exception;
+using Object = Java.Lang.Object;
 
 #endregion
 
@@ -83,6 +86,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 				.Subscribe(x => { loading.Visibility = x ? ViewStates.Visible : ViewStates.Gone; })
 				.AddTo(CompositeDisposable);
 			InitView();
+			ViewModel.LoadCommand.CheckExecute(this);
 		}
 
 		private void RenderSessions(List<SessionViewModel> sessionViewModels)
@@ -93,7 +97,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 			if (recycleView.GetLayoutManager() == null)
 			{
-				var lm = new SpannableGridLayoutManager(Orientation.Vertical, ViewModel.SessionRooms.Count,
+				var lm = new SpannableGridLayoutManager(Orientation.Vertical, ViewModel.SessionRooms.Length,
 					ViewModel.StartTimes.Count + 10);
 				recycleView.SetLayoutManager(lm);
 			}
@@ -140,7 +144,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 			{
 				clickCanceller.SendCancelIfScrolling(args.Event);
 				var e = MotionEvent.Obtain(args.Event);
-				e.SetLocation(e.GetX() + root.ScrollX, e.GetY() + headerRow.Height);
+				e.SetLocation(e.GetX() + root.ScrollX, e.GetY() - headerRow.Height);
 				recycleView.ForceToDispatchTouchEvent(e);
 				args.Handled = false;
 			};
@@ -194,6 +198,8 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 			public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
 			{
+				var compositHoldeer = holder as CompositDiposableViewHolder;
+				compositHoldeer.CompositDispose();
 				var vm = Get(position);
 				var param = holder.ItemView.LayoutParameters;
 				if (param is SpannableGridLayoutManager.LayoutParams)
@@ -205,15 +211,13 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 				var viewAccesor = new view_session_cell_holder(holder.ItemView);
 
-				
+
 				viewAccesor.root.Clickable = vm.IsSelectable;
 				viewAccesor.root.Enabled = vm.IsSelectable;
-
 				viewAccesor.root.SetBackgroundResource(vm.BackgroundResourceId);
 
 				viewAccesor.categoryBorder.Visibility = vm.IsNormalSession.ToViewStates();
 				viewAccesor.categoryBorder.SetBackgroundResource(vm.TopicColorResourceId);
-				viewAccesor.img_check.Visibility = vm.IsCheckVisible.Value.ToViewStates();
 				var clicklistner = new AnonymousOnClickListner()
 				{
 					OnClickAction = (view)=> { vm.GoDetailCommand.Execute(); },
@@ -225,10 +229,20 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 				};
 				viewAccesor.root.SetOnClickListener(clicklistner);
 				viewAccesor.root.SetOnLongClickListener(clicklistner);
-				viewAccesor
-					.img_check.OneWayBind(x => x.Visibility, vm.IsCheckVisible.Skip(1).Select(x => x.ToViewStates()))
-					.AddTo(CompositeDisposable)
-					;
+
+				viewAccesor.img_check.Visibility = vm.IsCheckVisible.Value.ToViewStates();
+				var dispose = vm.IsCheckVisible
+					.DistinctUntilChanged()
+					.ObserveOnUIDispatcher()
+					.Subscribe(x =>
+					{
+						if (position == holder.AdapterPosition)
+						{
+							var ac = new view_session_cell_holder(holder.ItemView);
+							ac.img_check.Visibility = x.ToViewStates();
+						}
+					});
+				compositHoldeer.CompositDisposable.Add(dispose);
 
 				viewAccesor.txt_time.Text = vm.ShortStartTime;
 				viewAccesor.txt_minutes.Text = vm.Minutes;
@@ -241,21 +255,17 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 				viewAccesor.txt_speaker_name.Visibility = vm.IsNormalSession.ToViewStates();
 			}
 
+			public override void OnViewDetachedFromWindow(Object holder)
+			{
+				base.OnViewDetachedFromWindow(holder);
+				var viewHolder = holder as CompositDiposableViewHolder;
+				viewHolder.CompositDispose();
+			}
+
 			public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
 			{
 				var view = LayoutInflater.From(Context).Inflate(Resource.Layout.view_session_cell, parent, false);
-				return new SessionViewHolder(view);
-			}
-		}
-
-		public class SessionViewHolder : RecyclerView.ViewHolder
-		{
-			public SessionViewHolder(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
-			{
-			}
-
-			public SessionViewHolder(View itemView) : base(itemView)
-			{
+				return new CompositDiposableViewHolder(view);
 			}
 		}
 

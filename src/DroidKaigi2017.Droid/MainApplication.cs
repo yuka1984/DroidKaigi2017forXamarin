@@ -9,6 +9,7 @@ using DroidKaigi2017.Droid.Mocks;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Droid.ViewModels;
 using DroidKaigi2017.Interface.Repository;
+using DroidKaigi2017.Interface.Services;
 using Microsoft.Azure.Mobile;
 using Microsoft.Azure.Mobile.Crashes;
 using Nyanto;
@@ -43,6 +44,8 @@ namespace DroidKaigi2017.Droid
 			builder.RegisterType<MockTopicRepository>().As<ITopicRepository>().SingleInstance();
 			builder.RegisterType<MockMySessionRepository>().As<IMySessionRepository>().SingleInstance();
 			builder.RegisterType<MockFeedbackRepository>().As<IFeedbackRepository>().SingleInstance();
+
+			builder.RegisterType<SessionService>().As<ISessionService>().SingleInstance();
 
 			// Activity LyfeTime
 

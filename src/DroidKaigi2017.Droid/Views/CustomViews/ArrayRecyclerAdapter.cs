@@ -1,9 +1,12 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using Android.Content;
+using Android.Runtime;
 using Android.Support.V7.Widget;
+using Android.Views;
 
 #endregion
 
@@ -11,7 +14,6 @@ namespace DroidKaigi2017.Droid.Views.CustomViews
 {
 	public abstract class ArrayRecyclerAdapter<T> : RecyclerView.Adapter
 	{
-		protected CompositeDisposable CompositeDisposable = new CompositeDisposable();
 		private readonly List<T> _list;
 		protected RecyclerView _recyclerView = null;
 
@@ -25,9 +27,10 @@ namespace DroidKaigi2017.Droid.Views.CustomViews
 			_list = list;
 		}
 
+		
+
 		public override void OnAttachedToRecyclerView(RecyclerView recyclerView)
 		{
-			CompositeDisposable = new CompositeDisposable();
 			base.OnAttachedToRecyclerView(recyclerView);
 			_recyclerView = recyclerView;
 		}
@@ -35,7 +38,7 @@ namespace DroidKaigi2017.Droid.Views.CustomViews
 		public override void OnDetachedFromRecyclerView(RecyclerView recyclerView)
 		{
 			base.OnDetachedFromRecyclerView(recyclerView);
-			CompositeDisposable.Dispose();
+
 		}
 
 		public override int ItemCount => _list.Count;
@@ -74,6 +77,24 @@ namespace DroidKaigi2017.Droid.Views.CustomViews
 			var position = ItemCount;
 			AddRange(items);
 			NotifyItemInserted(position);
+		}
+	}
+
+	public class CompositDiposableViewHolder : RecyclerView.ViewHolder
+	{
+		public readonly List<IDisposable> CompositDisposable = new List<IDisposable>();
+		public CompositDiposableViewHolder(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+		{
+		}
+
+		public CompositDiposableViewHolder(View itemView) : base(itemView)
+		{
+		}
+
+		public void CompositDispose()
+		{
+			CompositDisposable.ForEach(x => x.Dispose());
+			CompositDisposable.Clear();
 		}
 	}
 }

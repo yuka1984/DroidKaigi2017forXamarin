@@ -394,8 +394,10 @@ namespace TwoWayView.Layout
 			getLaneForPosition(mTempLaneInfo, position, direction);
 			getDecoratedChildFrame(child, mChildFrame);
 
+			
 			popChildFrame(getItemEntryForPosition(position), mChildFrame, mTempLaneInfo.startLane,
 				getLaneSpanForChild(child), direction);
+			
 		}
 
 		protected virtual void getLaneForChild(Lanes.LaneInfo outInfo, View child, Direction direction)

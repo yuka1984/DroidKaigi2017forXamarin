@@ -200,20 +200,27 @@ namespace TwoWayview.Layout
 		public void popChildFrame(Rect outRect, int lane, int margin, Direction direction)
 		{
 			var laneRect = mLanes[lane];
-			if (mIsVertical)
+			try
 			{
-				if (direction == Direction.END)
-					laneRect.Top = outRect.Bottom - margin;
+				if (mIsVertical)
+				{
+					if (direction == Direction.END)
+						laneRect.Top = outRect.Bottom - margin;
+					else
+						laneRect.Bottom = outRect.Top + margin;
+				}
 				else
-					laneRect.Bottom = outRect.Top + margin;
+				{
+					if (direction == Direction.END)
+						laneRect.Left = outRect.Right - margin;
+					else
+						laneRect.Right = outRect.Left + margin;
+				}
 			}
-			else
+			catch (Exception e)
 			{
-				if (direction == Direction.END)
-					laneRect.Left = outRect.Right - margin;
-				else
-					laneRect.Right = outRect.Left + margin;
-			}
+				Console.WriteLine(e);
+			}			
 
 			invalidateEdges();
 		}

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>26df7e69-b0e2-4a46-95d4-72d71b708907</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DroidKaigi2017.Service</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)MySessionService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Session.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SessionServices.cs" />
+  </ItemGroup>
+</Project>

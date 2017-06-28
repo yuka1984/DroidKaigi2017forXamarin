@@ -8,7 +8,7 @@ using DroidKaigi2017.Droid.Annotations;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Interface.Models;
 using DroidKaigi2017.Interface.Repository;
-using DroidKaigi2017.Interface.Services;
+using DroidKaigi2017.Services;
 using Nyanto;
 using Nyanto.Core;
 using Reactive.Bindings;
@@ -23,35 +23,35 @@ namespace DroidKaigi2017.Droid.ViewModels
 		private readonly int? _colSpan;
 		private readonly Context _context;
 		private readonly IDateUtil _dateUtil;
-		private readonly IMySessionRepository _mySessionRepository;
+		private readonly IMySessionService _mySessionService;
 		private readonly int? _rowSpan;
 		private readonly INavigator _navigator;
 		private readonly Session _session;
 
-		public SessionViewModel(Context context, Session session, int roomCount, IMySessionRepository mySessionRepository, IDateUtil dateUtil, INavigator navigator)
+		public SessionViewModel(Context context, Session session, int roomCount, IMySessionService mySessionService, IDateUtil dateUtil, INavigator navigator)
 		{
 			_context = context;
-			_mySessionRepository = mySessionRepository;
+			_mySessionService = mySessionService;
 			_dateUtil = dateUtil;
 			_navigator = navigator;
 			_session = session;
 
 			this.RoomCount = roomCount;
-			IsCheckVisible = mySessionRepository.MySessions
+			IsCheckVisible = mySessionService.MySessions
 				.ObserveProperty(x => x.Count)
 				.ToUnit()
-				.Select(x => { return mySessionRepository.MySessions.Any(y => y.SessionId == session.Sesion?.Id); })
+				.Select(x => { return mySessionService.MySessions.Any(y => y == session.SessionModel?.Id); })
 				.DistinctUntilChanged()
-				.ToReadOnlySwitchReactiveProperty(IsActiveObservable, initialValue:  mySessionRepository.MySessions.Any(x => x.SessionId == session.Sesion?.Id))
+				.ToReadOnlySwitchReactiveProperty(IsActiveObservable, initialValue:  mySessionService.MySessions.Any(x => x == session.SessionModel?.Id))
 				.AddTo(CompositeDisposable);
 
 			CheckCommand = new ReactiveCommand<bool>();
 			CheckCommand.Subscribe(x =>
 			{
 				if (x)
-					_mySessionRepository.Add(session.Sesion.Id);
+					_mySessionService.AddAsync(session.SessionModel.Id);
 				else
-					_mySessionRepository.Remove(session.Sesion.Id);
+					_mySessionService.RemoveAsync(session.SessionModel.Id);
 			});
 
 			GoDetailCommand = new ReactiveCommand();
@@ -65,22 +65,22 @@ namespace DroidKaigi2017.Droid.ViewModels
 			IsCheckVisible = new ReactiveProperty<bool>(false).ToReadOnlyReactiveProperty();
 		}
 
-		public string ShortStartTime => _session?.Sesion?.StartTime != null
-			? _dateUtil.GetHourMinute(_session.Sesion.StartTime.UtcDateTime)
+		public string ShortStartTime => _session?.SessionModel?.StartTime != null
+			? _dateUtil.GetHourMinute(_session.SessionModel.StartTime.UtcDateTime)
 			: "";
 
-		public DateTime StartTime => _session?.Sesion?.StartTime.UtcDateTime ?? DateTime.MinValue;
+		public DateTime StartTime => _session?.SessionModel?.StartTime.UtcDateTime ?? DateTime.MinValue;
 
-		public DateTime EndTime => _session?.Sesion?.EndTime.UtcDateTime ?? DateTime.MaxValue;
+		public DateTime EndTime => _session?.SessionModel?.EndTime.UtcDateTime ?? DateTime.MaxValue;
 
-		public int SessionId => _session?.Sesion?.Id ?? -1;
+		public int SessionId => _session?.SessionModel?.Id ?? -1;
 
-		public string Title => _session?.Sesion?.Title;
-		public string SpeakerName => _session?.Speaker?.Name;
-		public string RoomName => _session?.Room?.Name;
-		public string LanguageId => _session?.Sesion?.Lang;
+		public string Title => _session?.SessionModel?.Title;
+		public string SpeakerName => _session?.SpeakerModel?.Name;
+		public string RoomName => _session?.RoomModel?.Name;
+		public string LanguageId => _session?.SessionModel?.Lang;
 
-		public string Minutes => _context?.GetString(Resource.String.session_minutes, _session?.Sesion?.DurationMin);
+		public string Minutes => _context?.GetString(Resource.String.session_minutes, _session?.SessionModel?.DurationMin);
 
 		public int TitleMaxLines => IsLongBreak ? 6 : 3;
 
@@ -93,7 +93,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 				if (IsSelectable)
 				{
 					var now = DateTimeOffset.Now;
-					if (_session?.Sesion?.StartTime <= now && _session?.Sesion?.EndTime >= now)
+					if (_session?.SessionModel?.StartTime <= now && _session?.SessionModel?.EndTime >= now)
 						return Resource.Drawable.clickable_purple;
 					return Resource.Drawable.clickable_white;
 				}
@@ -106,31 +106,31 @@ namespace DroidKaigi2017.Droid.ViewModels
 		{
 			get
 			{
-				if (_session?.Topic != null && IsSelectable)
-					return TopicColor.GettopiColor(_session.Topic).MiddleColorResId;
+				if (_session?.TopicModel != null && IsSelectable)
+					return TopicColor.GettopiColor(_session.TopicModel).MiddleColorResId;
 				return Android.Resource.Color.Transparent;
 			}
 		}
 
 
-		public bool IsSelectable => _session?.Sesion != null && _session.Sesion.Type != SessionType.Break;
+		public bool IsSelectable => _session?.SessionModel != null && _session.SessionModel.Type != SessionType.Break;
 
 		public ReactiveCommand GoDetailCommand { get; }
 		public ReactiveCommand<bool> CheckCommand { get; }
 		public IReadOnlyReactiveProperty<bool> IsCheckVisible { get; }
 
-		public bool IsNormalSession => _session?.Sesion != null && _session?.Sesion?.Type != SessionType.Break &&
-		                               _session?.Sesion?.Type != SessionType.Dinner;
+		public bool IsNormalSession => _session?.SessionModel != null && _session?.SessionModel?.Type != SessionType.Break &&
+		                               _session?.SessionModel?.Type != SessionType.Dinner;
 
-		public bool IsLanguageVisible => !string.IsNullOrEmpty(_session?.Sesion?.Lang);
+		public bool IsLanguageVisible => !string.IsNullOrEmpty(_session?.SessionModel?.Lang);
 
 		public int RoomCount { get; }
 
-		public string FormattedDate => _session?.Sesion?.StartTime != null
-			? _dateUtil.GetMonthDate(_session.Sesion.StartTime.UtcDateTime)
+		public string FormattedDate => _session?.SessionModel?.StartTime != null
+			? _dateUtil.GetMonthDate(_session.SessionModel.StartTime.UtcDateTime)
 			: "";
 
-		private bool IsLongBreak => _session?.Sesion?.DurationMin > 30 && _session?.Sesion?.Type != SessionType.Break;
+		private bool IsLongBreak => _session?.SessionModel?.DurationMin > 30 && _session?.SessionModel?.Type != SessionType.Break;
 
 		public int RowSpan
 		{
@@ -150,7 +150,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 				if (_colSpan.HasValue)
 					return _colSpan.Value;
 
-				switch (_session?.Sesion.Type)
+				switch (_session?.SessionModel.Type)
 				{
 					case SessionType.Ceremony:
 						return 3;

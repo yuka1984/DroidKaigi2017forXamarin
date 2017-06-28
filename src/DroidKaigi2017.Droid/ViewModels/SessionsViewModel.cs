@@ -10,7 +10,7 @@ using Android.Content;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Interface.Models;
 using DroidKaigi2017.Interface.Repository;
-using DroidKaigi2017.Interface.Services;
+using DroidKaigi2017.Services;
 using Nyanto;
 using Nyanto.Core;
 using Reactive.Bindings;
@@ -25,14 +25,14 @@ namespace DroidKaigi2017.Droid.ViewModels
 	{
 		private readonly Context _context;
 		private readonly IDateUtil _dateUtil;
-		private readonly IMySessionRepository _mySessionRepository;
+		private readonly IMySessionService _mySessionService;
 		private readonly ISessionService _sessionService;
 		private readonly INavigator _navigator;
 
-		public SessionsViewModel(IMySessionRepository mySessionRepository,
+		public SessionsViewModel(IMySessionService mySessionService,
 			IDateUtil dateUtil, Context context, INavigator navigator, ISessionService sessionService)
 		{
-			_mySessionRepository = mySessionRepository;
+			_mySessionService = mySessionService;
 			_dateUtil = dateUtil;
 			_context = context;
 			_navigator = navigator;
@@ -41,10 +41,10 @@ namespace DroidKaigi2017.Droid.ViewModels
 				.AddTo(CompositeDisposable);
 
 			SessionsObservable = _sessionService.Sessions
-				.Do(x => { StartTimes = x.Select(y => y.Sesion.StartTime).Distinct().ToList(); })
+				.Do(x => { StartTimes = x.Select(y => y.SessionModel.StartTime).Distinct().ToList(); })
 				.Select(x =>
 					x.Select(y =>
-							new SessionViewModel(_context, y, _sessionService.RoomCount, _mySessionRepository, _dateUtil, _navigator))
+							new SessionViewModel(_context, y, _sessionService.RoomCount, _mySessionService, _dateUtil, _navigator))
 						.ToList())
 				.Do(x => x.ForEach(y => Subscribe(y)))
 				.Select(x=> AdjustViewModels(x))

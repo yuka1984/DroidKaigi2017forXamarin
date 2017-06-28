@@ -124,6 +124,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 		private void InitView()
 		{
+			((SimpleItemAnimator) recycleView.GetItemAnimator()).SupportsChangeAnimations = false;
 			recycleView.HasFixedSize = true;
 			var sessionsTableWidth = GetScreenWidth();
 			var minWidth = (int) Resources.GetDimension(Resource.Dimension.session_table_min_width);
@@ -232,14 +233,14 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 				viewAccesor.img_check.Visibility = vm.IsCheckVisible.Value.ToViewStates();
 				var dispose = vm.IsCheckVisible
+					.Skip(1)
 					.DistinctUntilChanged()
 					.ObserveOnUIDispatcher()
 					.Subscribe(x =>
 					{
 						if (position == holder.AdapterPosition)
 						{
-							var ac = new view_session_cell_holder(holder.ItemView);
-							ac.img_check.Visibility = x.ToViewStates();
+							NotifyItemChanged(position);
 						}
 					});
 				compositHoldeer.CompositDisposable.Add(dispose);

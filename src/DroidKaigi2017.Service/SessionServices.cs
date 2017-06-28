@@ -12,7 +12,7 @@ using Reactive.Bindings.Notifiers;
 
 #endregion
 
-namespace DroidKaigi2017.Interface.Services
+namespace DroidKaigi2017.Services
 {
 	public interface ISessionService
 	{
@@ -64,7 +64,7 @@ namespace DroidKaigi2017.Interface.Services
 							))
 							.ToArray();
 					})
-					.ToReadOnlyReactiveProperty(initialValue: Array.Empty<Session>())
+					.ToReadOnlyReactiveProperty(Array.Empty<Session>())
 				;
 		}
 

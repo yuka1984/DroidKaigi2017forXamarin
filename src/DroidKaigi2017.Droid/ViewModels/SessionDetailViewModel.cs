@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System; 
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
@@ -15,6 +15,7 @@ using Android.Widget;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Interface.Models;
 using DroidKaigi2017.Interface.Repository;
+using DroidKaigi2017.Services;
 using Java.Net;
 using Java.Util;
 using Javax.Security.Auth;
@@ -29,21 +30,15 @@ namespace DroidKaigi2017.Droid.ViewModels
 {
 	public class SessionDetailViewModel : ViewModelBase
 	{
-		private readonly ISessionRepository _sessionRepository;
-		private readonly IMySessionRepository _mySessionRepository;
-		private readonly IRoomRepository _roomRepository;
-		private readonly ITopicRepository _topicRepository;
-		private readonly ISpeakerRepository _speakerRepository;
+		private readonly ISessionService _sessionService;
+		private readonly IMySessionService _mySessionSerice;
 		private readonly INavigator _navigator;
 		private readonly LocaleUtil _localeUtil;
 
-		public SessionDetailViewModel(ISessionRepository sessionRepository, IMySessionRepository mySessionRepository, IRoomRepository roomRepository, ITopicRepository topicRepository, ISpeakerRepository speakerRepository, LocaleUtil localeUtil, INavigator navigator)
+		public SessionDetailViewModel(ISessionService sessionService, IMySessionService mySessionSerice, LocaleUtil localeUtil, INavigator navigator)
 		{
-			_sessionRepository = sessionRepository;
-			_mySessionRepository = mySessionRepository;
-			_roomRepository = roomRepository;
-			_topicRepository = topicRepository;
-			_speakerRepository = speakerRepository;
+			_sessionService = sessionService;
+			_mySessionSerice = mySessionSerice;
 			_localeUtil = localeUtil;
 			_navigator = navigator;
 
@@ -52,63 +47,49 @@ namespace DroidKaigi2017.Droid.ViewModels
 
 			 var dataObserver = Observable.CombineLatest(
 				_selectedSessionidSubject,
-				_sessionRepository.SessionsObservable,
-				_roomRepository.RoomsObservable,
-				_topicRepository.TopicsObservable,
-				_speakerRepository.SpealersObservable,
-				(id, sessions, rooms, topics, speakers) => new {id, sessions, rooms, topics, speakers}
+				_sessionService.Sessions,
+				(id, sessions) => new {id, sessions}
 			)
 			.Do(x=> busyDispose.Dispose())
 			.Select(x =>
 				{
-					var session = x.sessions.FirstOrDefault(y => y.Id == x.id);
-					if (session == null)
-						return null;
-					var room = x.rooms.FirstOrDefault(y => y.Id == session.RoomId);
-					var topic = x.topics.FirstOrDefault(y => y.Id == session.TopicId);
-					var speaker = x.speakers.FirstOrDefault(y => y.Id == session.SpeakerId);
-					return new
-					{
-						session,
-						room,
-						topic,
-						speaker
-					};
+					var session = x.sessions.FirstOrDefault(y => y.SessionModel.Id == x.id);
+					return session;
 				})
 			.ToReadOnlyReactiveProperty(eventScheduler:TaskPoolScheduler.Default)
 			.AddTo(CompositeDisposable)			
 			;
 
-			RoomName = dataObserver.Select(x=> x?.room?.Name)
+			RoomName = dataObserver.Select(x=> x?.RoomModel?.Name)
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
-			Topic = dataObserver.Select(x=> x?.topic?.Name)
+			Topic = dataObserver.Select(x=> x?.TopicModel?.Name)
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
-			SpeakerName = dataObserver.Select(x=> x?.speaker?.Name)
+			SpeakerName = dataObserver.Select(x=> x?.SpeakerModel?.Name)
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
-			SessionId = dataObserver.Select(x => x?.session.Id)
+			SessionId = dataObserver.Select(x => x?.SessionModel.Id)
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
-			Title = dataObserver.Select(x => x?.session.Title)
+			Title = dataObserver.Select(x => x?.SessionModel.Title)
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable).AddTo(CompositeDisposable);
 
-			Description = dataObserver.Select(x => x?.session?.Description)
+			Description = dataObserver.Select(x => x?.SessionModel?.Description)
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
 			var topiccolor = dataObserver.Select(x =>
 			{
-				return x?.topic != null ? TopicColor.GettopiColor(x.topic) : TopicColor.None;
+				return x?.TopicModel != null ? TopicColor.GettopiColor(x.TopicModel) : TopicColor.None;
 			});
 
-			speakerImageUrl = dataObserver.Select(x => x?.speaker?.ImageUrl)
+			speakerImageUrl = dataObserver.Select(x => x?.SpeakerModel?.ImageUrl)
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 				;
@@ -125,34 +106,34 @@ namespace DroidKaigi2017.Droid.ViewModels
 					.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 					.AddTo(CompositeDisposable)
 				;
-			languageResId = dataObserver.Select(x => x?.session?.Lang)
+			languageResId = dataObserver.Select(x => x?.SessionModel?.Lang)
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
 
-			StartTime = dataObserver.Select(x=> x?.session?.StartTime.DateTime.ToJavaDate())
+			StartTime = dataObserver.Select(x=> x?.SessionModel?.StartTime.DateTime.ToJavaDate())
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
 
-			EndTime = dataObserver.Select(x => x?.session?.EndTime.DateTime.ToJavaDate())
+			EndTime = dataObserver.Select(x => x?.SessionModel?.EndTime.DateTime.ToJavaDate())
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
 
-			isMySession = _mySessionRepository.MySessions.ObserveProperty(x => x.Count)
-				.CombineLatest(dataObserver.Select(x => x?.session), (c, s) => s)
+			isMySession = _mySessionSerice.MySessions.ObserveProperty(x => x.Count)
+				.CombineLatest(dataObserver.Select(x => x?.SessionModel), (c, s) => s)
 				.Select(session =>
 				{
 					if (session == null)
 						return false;
 
-					return _mySessionRepository.MySessions.Any(y => y.SessionId == session.Id);
+					return _mySessionSerice.MySessions.Any(y => y == session.Id);
 				})
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 
-			tagContainerVisibility = dataObserver.Select(x => x?.session)
+			tagContainerVisibility = dataObserver.Select(x => x?.SessionModel)
 				.Select(x =>
 				{
 					if (x == null)
@@ -173,27 +154,27 @@ namespace DroidKaigi2017.Droid.ViewModels
 				{
 					if (isMySession.Value)
 					{
-						_mySessionRepository.Remove(SessionId.Value.Value);
+						_mySessionSerice.RemoveAsync(SessionId.Value.Value);
 					}
 					else
 					{
-						_mySessionRepository.Add(SessionId.Value.Value);
+						_mySessionSerice.AddAsync(SessionId.Value.Value);
 					}
 				}
 				
 			}).AddTo(CompositeDisposable);
 
-			IsMovieVisibility = dataObserver.Select(x => !string.IsNullOrEmpty(x?.session?.MovieUrl)
-			                                             && !string.IsNullOrEmpty(x?.session?.MovieDashUrl))
+			IsMovieVisibility = dataObserver.Select(x => !string.IsNullOrEmpty(x?.SessionModel?.MovieUrl)
+			                                             && !string.IsNullOrEmpty(x?.SessionModel?.MovieDashUrl))
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 			MovieCommand = IsMovieVisibility.ToReactiveCommand();
 			MovieCommand.Subscribe(x => { });
 
-			IsSlideEnabled = dataObserver.Select(x => !string.IsNullOrEmpty(x?.session?.SlideUrl))
+			IsSlideEnabled = dataObserver.Select(x => !string.IsNullOrEmpty(x?.SessionModel?.SlideUrl))
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
-			SlideUrl = dataObserver.Select(x => x?.session?.SlideUrl)
+			SlideUrl = dataObserver.Select(x => x?.SessionModel?.SlideUrl)
 				.ToReadOnlyReactiveProperty()
 				.AddTo(CompositeDisposable);
 
@@ -203,7 +184,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 				_navigator.OpenUrl(SlideUrl.Value);
 			});
 
-			feedbackButtonVisiblity = dataObserver.Select(x => !(x?.session?.Type == SessionType.Dinner))
+			feedbackButtonVisiblity = dataObserver.Select(x => !(x?.SessionModel?.Type == SessionType.Dinner))
 				.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
 				.AddTo(CompositeDisposable);
 

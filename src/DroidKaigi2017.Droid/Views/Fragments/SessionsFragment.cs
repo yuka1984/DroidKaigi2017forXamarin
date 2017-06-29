@@ -3,28 +3,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.Content.Res;
-using Android.Support.V4.View;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Droid.ViewModels;
 using DroidKaigi2017.Droid.Views.CustomViews;
-using Java.Lang;
 using Nyanto;
-using Nyanto.Binding;
 using Reactive.Bindings.Extensions;
 using TwoWayView.Core;
 using TwoWayView.Layout;
 using DividerItemDecoration = TwoWayView.Layout.DividerItemDecoration;
-using Exception = System.Exception;
 using Object = Java.Lang.Object;
 
 #endregion
@@ -49,7 +43,6 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
 		{
 			inflater.Inflate(Resource.Menu.menu_sessions, menu);
-			//se.OnCreateOptionsMenu(menu, inflater);
 		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item)
@@ -77,7 +70,6 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 			loading = view.FindViewById(Resource.Id.loading);
 
 			ViewModel.SessionsObservable
-				.DistinctUntilChanged()
 				.ObserveOnUIDispatcher()
 				.Subscribe(RenderSessions)
 				.AddTo(CompositeDisposable);
@@ -98,7 +90,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 			if (recycleView.GetLayoutManager() == null)
 			{
 				var lm = new SpannableGridLayoutManager(Orientation.Vertical, ViewModel.SessionRooms.Length,
-					ViewModel.StartTimes.Count + 10);
+					ViewModel.StartTimes.Count);
 				recycleView.SetLayoutManager(lm);
 			}
 
@@ -188,7 +180,6 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 		public class SessionsAdapter : ArrayRecyclerAdapter<SessionViewModel>
 		{
-
 			public SessionsAdapter(Context context) : base(context)
 			{
 			}
@@ -219,14 +210,14 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 
 				viewAccesor.categoryBorder.Visibility = vm.IsNormalSession.ToViewStates();
 				viewAccesor.categoryBorder.SetBackgroundResource(vm.TopicColorResourceId);
-				var clicklistner = new AnonymousOnClickListner()
+				var clicklistner = new AnonymousOnClickListner
 				{
-					OnClickAction = (view)=> { vm.GoDetailCommand.Execute(); },
-					OnLongClickAction = (view) =>
+					OnClickAction = view => { vm.GoDetailCommand.Execute(); },
+					OnLongClickAction = view =>
 					{
 						vm.CheckCommand?.Execute(!vm.IsCheckVisible.Value);
 						return true;
-					},
+					}
 				};
 				viewAccesor.root.SetOnClickListener(clicklistner);
 				viewAccesor.root.SetOnLongClickListener(clicklistner);
@@ -239,14 +230,14 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 					.Subscribe(x =>
 					{
 						if (position == holder.AdapterPosition)
-						{
 							NotifyItemChanged(position);
-						}
 					});
 				compositHoldeer.CompositDisposable.Add(dispose);
 
 				viewAccesor.txt_time.Text = vm.ShortStartTime;
-				viewAccesor.txt_minutes.Text = vm.Minutes;
+				viewAccesor.txt_minutes.Text = vm.Minutes.HasValue
+					? Context.GetString(Resource.String.session_minutes, vm.Minutes)
+					: "";
 				viewAccesor.txt_title.Text = vm.Title;
 				viewAccesor.txt_title.SetMaxLines(vm.TitleMaxLines);
 				viewAccesor.txt_language.Text = vm.LanguageId;

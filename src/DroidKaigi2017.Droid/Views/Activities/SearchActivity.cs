@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Autofac;
+using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Droid.Views.Fragments;
 
 namespace DroidKaigi2017.Droid.Views.Activities
@@ -47,7 +48,7 @@ namespace DroidKaigi2017.Droid.Views.Activities
 
 		protected override void ConfigurationAction(ContainerBuilder containerBuilder)
 		{
-				
+			containerBuilder.Register(c => new Navigator(this)).As<INavigator>().SingleInstance();
 		}
 	}
 }

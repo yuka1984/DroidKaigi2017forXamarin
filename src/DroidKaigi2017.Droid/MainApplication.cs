@@ -46,6 +46,7 @@ namespace DroidKaigi2017.Droid
 			builder.RegisterType<MockFeedbackRepository>().As<IFeedbackRepository>().SingleInstance();
 
 			builder.RegisterType<SessionService>().As<ISessionService>().SingleInstance();
+			builder.RegisterType<MySessionService>().As<IMySessionService>().SingleInstance();
 
 			// Activity LyfeTime
 
@@ -59,6 +60,9 @@ namespace DroidKaigi2017.Droid
 				.InstancePerLifetimeScope();
 
 			builder.RegisterType<SessionFeedbackViewModel>()
+				.InstancePerLifetimeScope();
+
+			builder.RegisterType<SearchViewModel>()
 				.InstancePerLifetimeScope();
 
 			builder.Register(c => new DateUtil(Context)).As<IDateUtil>();

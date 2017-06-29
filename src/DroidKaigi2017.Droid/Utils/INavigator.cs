@@ -49,7 +49,7 @@ namespace DroidKaigi2017.Droid.Utils
 			switch (key)
 			{
 				case NavigationKey.GoSessionDetail:
-					NavigateToSessionDetail((SessionViewModel)param[0]);
+					NavigateToSessionDetail((int)param[0]);
 					break;
 				case NavigationKey.GoSessionFeedBack:
 					NavigateToSessionFeedBack((int)param[0]);
@@ -87,10 +87,10 @@ namespace DroidKaigi2017.Droid.Utils
 			_MainActivity.Finish();
 		}
 
-		private void NavigateToSessionDetail(SessionViewModel sessionViewModel)
+		private void NavigateToSessionDetail(int sessionId)
 		{
 			_MainActivity.StartActivity(
-				SessionDetailActivity.createIntent(_MainActivity, sessionViewModel.SessionId, typeof(MainActivity)));
+				SessionDetailActivity.createIntent(_MainActivity, sessionId, typeof(MainActivity)));
 		}
 
 		private void NavigateToSessionFeedBack(int sessionId)

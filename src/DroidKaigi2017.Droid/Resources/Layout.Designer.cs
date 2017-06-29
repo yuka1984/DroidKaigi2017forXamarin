@@ -327,6 +327,84 @@ namespace DroidKaigi2017.Droid
 		}
 	}
 
+	public class view_search_holder : IDisposable
+	{
+
+		public view_search_holder(View view)
+		{
+		}
+		public void Dispose()
+		{
+		}
+	}
+
+	public class view_search_compat_holder : IDisposable
+	{
+		public LinearLayout search_bar { get; }
+		public TextView search_badge { get; }
+		public ImageView search_button { get; }
+		public LinearLayout search_edit_frame { get; }
+		public ImageView search_mag_icon { get; }
+		public LinearLayout search_plate { get; }
+		public View search_src_text { get; }
+		public ImageView search_close_btn { get; }
+		public LinearLayout submit_area { get; }
+		public ImageView search_go_btn { get; }
+		public ImageView search_voice_btn { get; }
+
+		public view_search_compat_holder(View view)
+		{
+			search_bar = view.FindViewById<LinearLayout>(DroidKaigi2017.Droid.Resource.Id.search_bar);
+			search_badge = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.search_badge);
+			search_button = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.search_button);
+			search_edit_frame = view.FindViewById<LinearLayout>(DroidKaigi2017.Droid.Resource.Id.search_edit_frame);
+			search_mag_icon = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.search_mag_icon);
+			search_plate = view.FindViewById<LinearLayout>(DroidKaigi2017.Droid.Resource.Id.search_plate);
+			search_src_text = view.FindViewById<View>(DroidKaigi2017.Droid.Resource.Id.search_src_text);
+			search_close_btn = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.search_close_btn);
+			submit_area = view.FindViewById<LinearLayout>(DroidKaigi2017.Droid.Resource.Id.submit_area);
+			search_go_btn = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.search_go_btn);
+			search_voice_btn = view.FindViewById<ImageView>(DroidKaigi2017.Droid.Resource.Id.search_voice_btn);
+		}
+		public void Dispose()
+		{
+			search_bar.Dispose();
+			search_badge.Dispose();
+			search_button.Dispose();
+			search_edit_frame.Dispose();
+			search_mag_icon.Dispose();
+			search_plate.Dispose();
+			search_src_text.Dispose();
+			search_close_btn.Dispose();
+			submit_area.Dispose();
+			search_go_btn.Dispose();
+			search_voice_btn.Dispose();
+		}
+	}
+
+	public class view_search_result_holder : IDisposable
+	{
+		public Android.Support.Constraints.ConstraintLayout root { get; }
+		public TextView txt_type { get; }
+		public FFImageLoading.Views.ImageViewAsync img_speaker { get; }
+		public TextView txt_search_result { get; }
+
+		public view_search_result_holder(View view)
+		{
+			root = view.FindViewById<Android.Support.Constraints.ConstraintLayout>(DroidKaigi2017.Droid.Resource.Id.root);
+			txt_type = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_type);
+			img_speaker = view.FindViewById<FFImageLoading.Views.ImageViewAsync>(DroidKaigi2017.Droid.Resource.Id.img_speaker);
+			txt_search_result = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_search_result);
+		}
+		public void Dispose()
+		{
+			root.Dispose();
+			txt_type.Dispose();
+			img_speaker.Dispose();
+			txt_search_result.Dispose();
+		}
+	}
+
 	public class view_sessions_header_cell_holder : IDisposable
 	{
 		public TextView txt_room_name { get; }

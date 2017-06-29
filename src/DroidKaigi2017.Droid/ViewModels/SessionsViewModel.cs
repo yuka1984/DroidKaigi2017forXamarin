@@ -23,18 +23,16 @@ namespace DroidKaigi2017.Droid.ViewModels
 {
 	public class SessionsViewModel : ViewModelBase
 	{
-		private readonly Context _context;
 		private readonly IDateUtil _dateUtil;
 		private readonly IMySessionService _mySessionService;
 		private readonly ISessionService _sessionService;
 		private readonly INavigator _navigator;
 
 		public SessionsViewModel(IMySessionService mySessionService,
-			IDateUtil dateUtil, Context context, INavigator navigator, ISessionService sessionService)
+			IDateUtil dateUtil,  INavigator navigator, ISessionService sessionService)
 		{
 			_mySessionService = mySessionService;
 			_dateUtil = dateUtil;
-			_context = context;
 			_navigator = navigator;
 			_sessionService = sessionService;
 			BusyNotifier = _sessionService.BusyNotifier.ToReadOnlySwitchReactiveProperty(IsActiveObservable)
@@ -44,7 +42,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 				.Do(x => { StartTimes = x.Select(y => y.SessionModel.StartTime).Distinct().ToList(); })
 				.Select(x =>
 					x.Select(y =>
-							new SessionViewModel(_context, y, _sessionService.RoomCount, _mySessionService, _dateUtil, _navigator))
+							new SessionViewModel(y, _sessionService.RoomCount, _mySessionService, _dateUtil, _navigator))
 						.ToList())
 				.Do(x => x.ForEach(y => Subscribe(y)))
 				.Select(x=> AdjustViewModels(x))

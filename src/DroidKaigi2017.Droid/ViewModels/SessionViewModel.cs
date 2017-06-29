@@ -21,16 +21,14 @@ namespace DroidKaigi2017.Droid.ViewModels
 	public class SessionViewModel : ViewModelBase
 	{
 		private readonly int? _colSpan;
-		private readonly Context _context;
 		private readonly IDateUtil _dateUtil;
 		private readonly IMySessionService _mySessionService;
 		private readonly int? _rowSpan;
 		private readonly INavigator _navigator;
 		private readonly Session _session;
 
-		public SessionViewModel(Context context, Session session, int roomCount, IMySessionService mySessionService, IDateUtil dateUtil, INavigator navigator)
+		public SessionViewModel(Session session, int roomCount, IMySessionService mySessionService, IDateUtil dateUtil, INavigator navigator)
 		{
-			_context = context;
 			_mySessionService = mySessionService;
 			_dateUtil = dateUtil;
 			_navigator = navigator;
@@ -55,7 +53,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 			});
 
 			GoDetailCommand = new ReactiveCommand();
-			GoDetailCommand.Subscribe(x => { _navigator.NavigateTo(NavigationKey.GoSessionDetail, this); });
+			GoDetailCommand.Subscribe(x => { _navigator.NavigateTo(NavigationKey.GoSessionDetail, this.SessionId); });
 		}
 
 		private SessionViewModel(int rowSpan = 1, int colSpan = 1)
@@ -80,7 +78,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 		public string RoomName => _session?.RoomModel?.Name;
 		public string LanguageId => _session?.SessionModel?.Lang;
 
-		public string Minutes => _context?.GetString(Resource.String.session_minutes, _session?.SessionModel?.DurationMin);
+		public int? Minutes => _session?.SessionModel?.DurationMin;
 
 		public int TitleMaxLines => IsLongBreak ? 6 : 3;
 

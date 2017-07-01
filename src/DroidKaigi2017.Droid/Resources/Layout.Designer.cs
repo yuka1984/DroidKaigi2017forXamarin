@@ -105,6 +105,20 @@ namespace DroidKaigi2017.Droid
 		}
 	}
 
+	public class activity_splash_holder : IDisposable
+	{
+		
+
+		public activity_splash_holder(Activity view)
+		{
+			
+		}
+		public void Dispose()
+		{
+			
+		}
+	}
+
 	public class fragment_my_sessions_holder : IDisposable
 	{
 		public Android.Support.V7.Widget.RecyclerView recycler_view { get; }
@@ -324,6 +338,20 @@ namespace DroidKaigi2017.Droid
 			developer_menu_tips.Dispose();
 			debug_overlay_view_switch_row.Dispose();
 			setting_switch.Dispose();
+		}
+	}
+
+	public class fragment_splash_holder : IDisposable
+	{
+		public DroidKaigi2017.Droid.Views.CustomViews.ParticlesAnimationView particle_animation_view { get; }
+
+		public fragment_splash_holder(View view)
+		{
+			particle_animation_view = view.FindViewById<DroidKaigi2017.Droid.Views.CustomViews.ParticlesAnimationView>(DroidKaigi2017.Droid.Resource.Id.particle_animation_view);
+		}
+		public void Dispose()
+		{
+			particle_animation_view.Dispose();
 		}
 	}
 

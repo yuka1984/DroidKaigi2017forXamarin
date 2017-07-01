@@ -176,6 +176,7 @@
     <Compile Include="ViewModels\SessionFeedbackViewModel.cs" />
     <Compile Include="Views\Activities\MySessionsActivity.cs" />
     <Compile Include="Views\Activities\SearchActivity.cs" />
+    <Compile Include="Views\CustomViews\ParticlesAnimationView.cs" />
     <Compile Include="Views\Fragments\MySessionsFragment.cs" />
     <Compile Include="Views\Fragments\SearchFragment.cs" />
     <Compile Include="Views\Fragments\SessionFeedbackFragment.cs" />
@@ -203,7 +204,9 @@
     <Compile Include="Views\Fragments\SessionsFragment.cs" />
     <Compile Include="Views\Fragments\SettingsFragment.cs" />
     <Compile Include="Views\CustomViews\SettingSwitchRowView.cs" />
+    <Compile Include="Views\Fragments\SplashFragment.cs" />
     <Compile Include="Views\helpers\BottomNavigationViewHelper.cs" />
+    <Compile Include="Views\SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -623,6 +626,12 @@
     <AndroidResource Include="Resources\layout\view_my_session.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_splash.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_splash.xml" />
   </ItemGroup>
   <Import Project="..\DroidKaigi2017.Service\DroidKaigi2017.Service.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -17,8 +17,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace DroidKaigi2017.Droid.Views.Activities
 {
-	[Activity(Label = "DroidKaigi2017", MainLauncher = true, LaunchMode = LaunchMode.SingleTask
-	)]
+	[Activity(Label = "DroidKaigi2017", MainLauncher = false, LaunchMode = LaunchMode.SingleTask)]
 	public class MainActivity : ActivityBase
 	{
 		private Fragment _sessionFragment;

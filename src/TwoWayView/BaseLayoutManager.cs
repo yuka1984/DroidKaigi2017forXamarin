@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
@@ -7,9 +8,10 @@ using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Java.Lang;
 using TwoWayview.Layout;
 using TwoWayView.Core;
+using Exception = Java.Lang.Exception;
+using Object = Java.Lang.Object;
 
 #endregion
 
@@ -252,12 +254,13 @@ namespace TwoWayView.Layout
 
 			var anchorItemPosition = getAnchorItemPosition(state);
 
+			
 			// Only move layout if we're not restoring a layout state.
 			if (anchorItemPosition > 0 && (refreshingLanes || !restoringLanes))
 				moveLayoutToPosition(anchorItemPosition, getPendingScrollOffset(), recycler, state);
 
+			ensureLayoutState();			
 			Lanes.reset(Direction.START);
-
 			base.OnLayoutChildren(recycler, state);
 		}
 

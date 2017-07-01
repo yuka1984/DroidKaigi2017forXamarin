@@ -59,6 +59,11 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 			return base.OnOptionsItemSelected(item);
 		}
 
+		public override void OnResume()
+		{
+			base.OnResume();
+		}
+
 		protected override void Bind(View view)
 		{
 			HasOptionsMenu = true;
@@ -70,6 +75,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 			loading = view.FindViewById(Resource.Id.loading);
 
 			ViewModel.SessionsObservable
+				.DistinctUntilChanged()
 				.ObserveOnUIDispatcher()
 				.Subscribe(RenderSessions)
 				.AddTo(CompositeDisposable);

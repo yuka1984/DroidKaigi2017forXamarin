@@ -61,6 +61,12 @@ namespace DroidKaigi2017.Droid.ViewModels
 				_navigator.NavigateTo(NavigationKey.GoSearch);
 			});
 
+			GoMySessionsCommand = _sessionService.BusyNotifier.Inverse().ToReactiveCommand();
+			GoMySessionsCommand.Subscribe(x =>
+			{
+				_navigator.NavigateTo(NavigationKey.GoMySessions);
+			});
+
 			LoadCommand = new AsyncReactiveCommand();
 			LoadCommand.Subscribe(async x =>
 			{
@@ -73,6 +79,7 @@ namespace DroidKaigi2017.Droid.ViewModels
 
 		public AsyncReactiveCommand LoadCommand { get; }
 		public ReactiveCommand GoSearchCommand { get;}
+		public ReactiveCommand GoMySessionsCommand { get; }
 		public RoomModel[] SessionRooms { get; private set; }
 		public List<DateTimeOffset> StartTimes { get; private set; }
 

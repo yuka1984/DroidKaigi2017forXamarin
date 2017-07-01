@@ -37,6 +37,23 @@ namespace DroidKaigi2017.Droid
 		}
 	}
 
+	public class activity_my_sessions_holder : IDisposable
+	{
+		public Android.Support.V7.Widget.Toolbar toolbar { get; }
+		public FrameLayout content_view { get; }
+
+		public activity_my_sessions_holder(Activity view)
+		{
+			toolbar = view.FindViewById<Android.Support.V7.Widget.Toolbar>(DroidKaigi2017.Droid.Resource.Id.toolbar);
+			content_view = view.FindViewById<FrameLayout>(DroidKaigi2017.Droid.Resource.Id.content_view);
+		}
+		public void Dispose()
+		{
+			toolbar.Dispose();
+			content_view.Dispose();
+		}
+	}
+
 	public class activity_search_holder : IDisposable
 	{
 		public RelativeLayout root { get; }
@@ -85,6 +102,23 @@ namespace DroidKaigi2017.Droid
 		{
 			toolbar.Dispose();
 			content_view.Dispose();
+		}
+	}
+
+	public class fragment_my_sessions_holder : IDisposable
+	{
+		public Android.Support.V7.Widget.RecyclerView recycler_view { get; }
+		public TextView empty_label { get; }
+
+		public fragment_my_sessions_holder(View view)
+		{
+			recycler_view = view.FindViewById<Android.Support.V7.Widget.RecyclerView>(DroidKaigi2017.Droid.Resource.Id.recycler_view);
+			empty_label = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.empty_label);
+		}
+		public void Dispose()
+		{
+			recycler_view.Dispose();
+			empty_label.Dispose();
 		}
 	}
 
@@ -324,6 +358,32 @@ namespace DroidKaigi2017.Droid
 		public void Dispose()
 		{
 			txt_ranking.Dispose();
+		}
+	}
+
+	public class view_my_session_holder : IDisposable
+	{
+		public Android.Support.Constraints.ConstraintLayout root { get; }
+		public TextView txt_session_title { get; }
+		public TextView txt_room { get; }
+		public TextView txt_session_time_range { get; }
+		public FFImageLoading.Views.ImageViewAsync img_speaker { get; }
+
+		public view_my_session_holder(View view)
+		{
+			root = view.FindViewById<Android.Support.Constraints.ConstraintLayout>(DroidKaigi2017.Droid.Resource.Id.root);
+			txt_session_title = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_session_title);
+			txt_room = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_room);
+			txt_session_time_range = view.FindViewById<TextView>(DroidKaigi2017.Droid.Resource.Id.txt_session_time_range);
+			img_speaker = view.FindViewById<FFImageLoading.Views.ImageViewAsync>(DroidKaigi2017.Droid.Resource.Id.img_speaker);
+		}
+		public void Dispose()
+		{
+			root.Dispose();
+			txt_session_title.Dispose();
+			txt_room.Dispose();
+			txt_session_time_range.Dispose();
+			img_speaker.Dispose();
 		}
 	}
 

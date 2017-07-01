@@ -65,6 +65,8 @@ namespace DroidKaigi2017.Droid
 			builder.RegisterType<SearchViewModel>()
 				.InstancePerLifetimeScope();
 
+			builder.RegisterType<MySessionsViewModel>().InstancePerDependency();
+
 			builder.Register(c => new DateUtil(Context)).As<IDateUtil>();
 			builder.Register(c => new ViewUtil());
 		}

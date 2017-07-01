@@ -170,10 +170,13 @@
     <Compile Include="Utils\LocalUtil.cs" />
     <Compile Include="Utils\TopicColor.cs" />
     <Compile Include="Utils\ViewUtil.cs" />
+    <Compile Include="ViewModels\MySessionsViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
     <Compile Include="ViewModels\SessionDetailViewModel.cs" />
     <Compile Include="ViewModels\SessionFeedbackViewModel.cs" />
+    <Compile Include="Views\Activities\MySessionsActivity.cs" />
     <Compile Include="Views\Activities\SearchActivity.cs" />
+    <Compile Include="Views\Fragments\MySessionsFragment.cs" />
     <Compile Include="Views\Fragments\SearchFragment.cs" />
     <Compile Include="Views\Fragments\SessionFeedbackFragment.cs" />
     <Compile Include="ViewModels\SessionsViewModel.cs" />
@@ -533,6 +536,10 @@
       <Project>{1df45f6b-fc81-471e-808c-72eabfdbad86}</Project>
       <Name>TwoWayView.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TwoWayView.Sample\TwoWayView.Sample.csproj">
+      <Project>{9A79F5CB-1EC2-4BF1-B20A-755248A1C496}</Project>
+      <Name>TwoWayView.Sample</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TwoWayView\TwoWayView.csproj">
       <Project>{be185e6c-6e1a-4d9a-af31-5a621fb5be5e}</Project>
       <Name>TwoWayView</Name>
@@ -605,6 +612,17 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\view_search_result.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_my_sessions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\fragment_my_sessions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\view_my_session.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="..\DroidKaigi2017.Service\DroidKaigi2017.Service.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

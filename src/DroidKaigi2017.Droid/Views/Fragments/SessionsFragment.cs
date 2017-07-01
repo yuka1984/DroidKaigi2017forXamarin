@@ -53,7 +53,7 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 					ViewModel.GoSearchCommand.CheckExecute(this);
 					break;
 				case Resource.Id.item_my_sessions:
-					// TODO:MySessionOpen
+					ViewModel.GoMySessionsCommand.CheckExecute(this);
 					break;
 			}
 			return base.OnOptionsItemSelected(item);

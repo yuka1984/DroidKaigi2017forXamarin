@@ -19,7 +19,8 @@ namespace DroidKaigi2017.Droid.Utils
 	{
 		public static Date ToJavaDate(this DateTime datetime)
 		{
-			return new Date(datetime.Year, datetime.Month, datetime.Day, datetime.Hour, datetime.Minute, datetime.Second);
+			var date = new Date(datetime.Year -1900, datetime.Month, datetime.Day, datetime.Hour, datetime.Minute, datetime.Second);
+			return date;
 		}
 	}
 

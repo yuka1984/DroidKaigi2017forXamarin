@@ -15,6 +15,7 @@ using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017;
 using DroidKaigi2017.Droid.Views;
 using DroidKaigi2017.Interface.Models;
+using DroidKaigi2017.Interface.Services;
 using DroidKaigi2017.Services;
 using Java.Security;
 using Nyanto;

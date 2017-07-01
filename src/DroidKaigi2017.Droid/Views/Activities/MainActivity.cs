@@ -17,8 +17,7 @@ using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace DroidKaigi2017.Droid.Views.Activities
 {
-	[Activity(Label = "DroidKaigi2017", MainLauncher = true, LaunchMode = LaunchMode.SingleTask,
-		ConfigurationChanges = ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenLayout | ConfigChanges.ScreenSize | ConfigChanges.Orientation
+	[Activity(Label = "DroidKaigi2017", MainLauncher = true, LaunchMode = LaunchMode.SingleTask
 	)]
 	public class MainActivity : ActivityBase
 	{

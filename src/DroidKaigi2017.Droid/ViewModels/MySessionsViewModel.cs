@@ -11,7 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using DroidKaigi2017.Droid.Utils;
-using DroidKaigi2017.Services;
+using DroidKaigi2017.Interface.Services;
 using Java.Util;
 using Nyanto;
 using Reactive.Bindings;

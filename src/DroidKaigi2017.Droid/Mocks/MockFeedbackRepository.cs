@@ -56,5 +56,10 @@ namespace DroidKaigi2017.Droid.Mocks
 			_feedbacks.Add(feedback);
 			return Task.CompletedTask;
 		}
+
+		public async Task LoadAsync()
+		{
+			await Task.Delay(1000);
+		}
 	}
 }

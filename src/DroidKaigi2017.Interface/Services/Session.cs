@@ -1,6 +1,6 @@
 using DroidKaigi2017.Interface.Models;
 
-namespace DroidKaigi2017.Services
+namespace DroidKaigi2017.Interface.Services
 {
 	public class Session
 	{

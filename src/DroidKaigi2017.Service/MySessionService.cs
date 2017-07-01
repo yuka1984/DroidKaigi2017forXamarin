@@ -4,18 +4,11 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using DroidKaigi2017.Interface.Repository;
+using DroidKaigi2017.Interface.Services;
 using Reactive.Bindings;
 
 namespace DroidKaigi2017.Services
 {
-	public interface IMySessionService
-	{
-		ReadOnlyObservableCollection<int> MySessions { get; }
-		Task AddAsync(int sessionId);
-		Task RemoveAsync(int sessionid);
-		Task LoadAsync();
-	}
-
 	public class MySessionService : IMySessionService
 	{
 	    private readonly IMySessionRepository _mySessionRepository;

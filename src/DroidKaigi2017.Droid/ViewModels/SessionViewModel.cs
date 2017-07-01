@@ -8,6 +8,7 @@ using DroidKaigi2017.Droid.Annotations;
 using DroidKaigi2017.Droid.Utils;
 using DroidKaigi2017.Interface.Models;
 using DroidKaigi2017.Interface.Repository;
+using DroidKaigi2017.Interface.Services;
 using DroidKaigi2017.Services;
 using Nyanto;
 using Nyanto.Core;

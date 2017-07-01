@@ -10,5 +10,7 @@ namespace DroidKaigi2017.Interface.Repository
 		Task SubmitAsync(SessionFeedbackModel feedback);
 
 	    Task SaveAsync(SessionFeedbackModel feedback);
+
+	    Task LoadAsync();
     }
 }

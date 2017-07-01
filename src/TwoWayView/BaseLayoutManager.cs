@@ -154,6 +154,8 @@ namespace TwoWayView.Layout
 			if (lanes == null)
 				return false;
 
+			
+
 			var laneCount = getLaneCount();
 			var laneSize = Lanes.calculateLaneSize(this, laneCount);
 
@@ -165,7 +167,7 @@ namespace TwoWayView.Layout
 		private bool ensureLayoutState()
 		{
 			var laneCount = getLaneCount();
-			if (laneCount == 0 || Width == 0 || Height == 0 || canUseLanes(Lanes))
+			if (laneCount == 0 || Width == 0 || Height == 0)
 				return false;
 
 			var oldLanes = Lanes;
@@ -254,14 +256,14 @@ namespace TwoWayView.Layout
 
 			var anchorItemPosition = getAnchorItemPosition(state);
 
-			
+
 			// Only move layout if we're not restoring a layout state.
 			if (anchorItemPosition > 0 && (refreshingLanes || !restoringLanes))
 				moveLayoutToPosition(anchorItemPosition, getPendingScrollOffset(), recycler, state);
 
-			ensureLayoutState();			
 			Lanes.reset(Direction.START);
 			base.OnLayoutChildren(recycler, state);
+
 		}
 
 		protected override void onLayoutScrapList(RecyclerView.Recycler recycler, RecyclerView.State state)

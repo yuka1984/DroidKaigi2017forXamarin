@@ -9,8 +9,14 @@
     <Import_RootNamespace>DroidKaigi2017.Service</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AzureEasyTableFeedbackRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AzureEasyTableRoomRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AzureEasyTableSpeakerRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AzureEasyTableTopicRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FeedBackService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MySessionRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MySessionService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AzureEasyTableSessionRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SessionServices.cs" />
   </ItemGroup>
 </Project>

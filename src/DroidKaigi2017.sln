@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoWayView.Core", "TwoWayVi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoWayView.Sample", "TwoWayView.Sample\TwoWayView.Sample.csproj", "{9A79F5CB-1EC2-4BF1-B20A-755248A1C496}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nyanto.ViewSupportTool", "Nyanto.ViewSupportTool\Nyanto.ViewSupportTool.csproj", "{984F26EA-BBB1-4E4C-A543-029F7EC1BF69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nyanto.ViewSupportTool", "Nyanto.ViewSupportTool\Nyanto.ViewSupportTool.csproj", "{984F26EA-BBB1-4E4C-A543-029F7EC1BF69}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultilineCollapsingToolbar", "MultilineCollapsingToolbar\MultilineCollapsingToolbar.csproj", "{ED8937E7-97B6-45D0-89D4-87FEE4215E75}"
 EndProject

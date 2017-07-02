@@ -23,7 +23,6 @@ using Nyanto;
 using Nyanto.Binding;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using TwoWayView.Sample;
 
 namespace DroidKaigi2017.Droid.Views.Fragments
 {

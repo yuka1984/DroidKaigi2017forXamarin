@@ -119,9 +119,14 @@ namespace DroidKaigi2017.Droid.Views.Fragments
 			accessor.txt_feedback.Click += (s, a) => { ViewModel.FeedBackCommand.CheckExecute(s); };
 
 			// fab
-			accessor.fab.OneWayBind(x => x.BackgroundTintList,
-					ViewModel.sessionVividColorResId.Select(x => Resources.GetColorStateList(x)))
-				.AddTo(CompositeDisposable);
+			ViewModel.sessionVividColorResId.ObserveOnUIDispatcher()
+				.Select(x => Resources.GetColorStateList(x))
+				.Subscribe(
+					x =>
+					{
+						accessor.fab.BackgroundTintList = x;
+					})
+				.AddTo(CompositeDisposable);			
 
 			accessor.fab.OneWayBind(x => x.SetImageResource,
 					ViewModel.isMySession.Select(y => y

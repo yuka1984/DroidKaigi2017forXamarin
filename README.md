@@ -1,5 +1,9 @@
 # DroidKaigi2017forXamarin
 
+https://github.com/DroidKaigi/conference-app-2017
+
+を元にXamarinで一部機能を再現してみました。
+
 # Nyanto Framwwork
 
 ## コンセプト

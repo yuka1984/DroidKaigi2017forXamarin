@@ -55,27 +55,11 @@ namespace DroidKaigi2017.Droid
 				throw;
 			}
 			
-			builder.Register(c =>
-			{
-				return new AzureEasyTableSessionRepository("https://droidxamarin.azurewebsites.net/", c.Resolve<IKeyValueStore>());
-			}).As<ISessionRepository>().SingleInstance();
-			builder.Register(c =>
-			{
-				return new AzureEasyTableRoomRepository("https://droidxamarin.azurewebsites.net/", c.Resolve<IKeyValueStore>());
-			}).As<IRoomRepository>().SingleInstance();
-			builder.Register(c =>
-			{
-				return new AzureEasyTableTopicRepository("https://droidxamarin.azurewebsites.net/", c.Resolve<IKeyValueStore>());
-			}).As<ITopicRepository>().SingleInstance();
-			builder.Register(c =>
-			{
-				return new AzureEasyTableSpeakerRepository("https://droidxamarin.azurewebsites.net/", c.Resolve<IKeyValueStore>());
-			}).As<ISpeakerRepository>().SingleInstance();
-			builder.Register(c =>
-			{
-				return new MySessionRepository(c.Resolve<IKeyValueStore>());
-			}).As<IMySessionRepository>().SingleInstance();
-
+			builder.RegisterType<AzureEasyTableSessionRepository>().As<ISessionRepository>().SingleInstance();
+			builder.RegisterType<AzureEasyTableRoomRepository>().As<IRoomRepository>().SingleInstance();
+			builder.RegisterType<AzureEasyTableTopicRepository>().As<ITopicRepository>().SingleInstance();
+			builder.RegisterType<AzureEasyTableSpeakerRepository>().As<ISpeakerRepository>().SingleInstance();
+			builder.RegisterType<AzureEasyTableSessionRepository>().As<IMySessionRepository>().SingleInstance();
 			builder.RegisterType<AzureEasyTableFeedbackRepository>().As<IFeedbackRepository>().SingleInstance();
 
 			builder.RegisterType<SessionService>().As<ISessionService>().SingleInstance();

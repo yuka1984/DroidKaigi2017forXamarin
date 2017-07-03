@@ -24,13 +24,13 @@ namespace DroidKaigi2017.Service
 
 		private readonly IKeyValueStore _keyValueStore;
 	    private bool _isDirty = true;
-	    private readonly ReactiveProperty<RoomModel[]> _roomProperty = new ReactiveProperty<RoomModel[]>(raiseEventScheduler: TaskPoolScheduler.Default);
-	    public string MobileAppUrl { get; private set; }
+	    private readonly MobileServiceClient _client;
+		private readonly ReactiveProperty<RoomModel[]> _roomProperty = new ReactiveProperty<RoomModel[]>(raiseEventScheduler: TaskPoolScheduler.Default);
 
-		public AzureEasyTableRoomRepository(string mobileAppUrl, IKeyValueStore keyValueStore)
+		public AzureEasyTableRoomRepository(IKeyValueStore keyValueStore, MobileServiceClient client)
 	    {
-		    this.MobileAppUrl = mobileAppUrl;
 		    _keyValueStore = keyValueStore;
+		    _client = client;
 		    RoomsObservable = _roomProperty.ToReadOnlyReactiveProperty(eventScheduler: TaskPoolScheduler.Default);
 	    }
 
@@ -42,9 +42,7 @@ namespace DroidKaigi2017.Service
 			{
 				try
 				{
-					var client = new MobileServiceClient(MobileAppUrl);
-
-					var table = client.GetTable("rooms");
+					var table = _client.GetTable("rooms");
 					var list = (await table.ReadAsync("")).ToObject<List<RoomItem>>();
 					var rooms = list
 						.Select(x => new RoomModel()

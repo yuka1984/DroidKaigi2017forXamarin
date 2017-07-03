@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DroidKaigi2017.Droid.Mocks;
@@ -18,13 +19,13 @@ namespace DroidKaigi2017.Service
     {
 	    private readonly IKeyValueStore _keyValueStore;
 	    private bool _isDirty = true;
+	    private readonly MobileServiceClient _client;
 	    private readonly ReactiveProperty<List<SessionModel>> _sessionProperty = new ReactiveProperty<List<SessionModel>>(raiseEventScheduler:TaskPoolScheduler.Default);		
-		public string MobileAppUrl { get; private set; }
 
-	    public AzureEasyTableSessionRepository(string mobileAppUrl, IKeyValueStore keyValueStore)
+	    public AzureEasyTableSessionRepository(IKeyValueStore keyValueStore, MobileServiceClient client)
 	    {
-		    MobileAppUrl = mobileAppUrl;
 		    _keyValueStore = keyValueStore;
+		    _client = client;
 		    SessionsObservable = _sessionProperty.ToReadOnlyReactiveProperty(eventScheduler:TaskPoolScheduler.Default);
 	    }
 
@@ -34,9 +35,7 @@ namespace DroidKaigi2017.Service
 		    {
 			    try
 			    {
-				    var client = new MobileServiceClient(MobileAppUrl);
-
-				    var table = client.GetTable("sessions");
+				    var table = _client.GetTable("sessions");
 				    var list = (await table.ReadAsync("")).ToObject<List<SessionItem>>();
 				    var session = list
 					    .Select(x => new SessionModel

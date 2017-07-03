@@ -15,18 +15,18 @@ namespace DroidKaigi2017.Service
 {
     class AzureEasyTableTopicRepository : ITopicRepository
     {
+	    private readonly MobileServiceClient _client;
 	    private readonly IKeyValueStore _keyValueStore;
 	    private bool _isDirty = true;
 	    private readonly ReactiveProperty<List<TopicModel>> _topicProperty = new ReactiveProperty<List<TopicModel>>(raiseEventScheduler: TaskPoolScheduler.Default);
 
-	    public AzureEasyTableTopicRepository(string mobileAppUrl, IKeyValueStore keyValueStore)
+	    public AzureEasyTableTopicRepository(IKeyValueStore keyValueStore, MobileServiceClient client)
 	    {
-		    this.MobileAppUrl = mobileAppUrl;
 		    _keyValueStore = keyValueStore;
+		    _client = client;
 		    TopicsObservable = _topicProperty.ToReadOnlyReactiveProperty(eventScheduler: TaskPoolScheduler.Default);
 	    }
 
-	    public string MobileAppUrl { get; private set; }
 
 		public ReadOnlyReactiveProperty<List<TopicModel>> TopicsObservable { get; }
 	    public async Task LoadAsync()
@@ -35,9 +35,7 @@ namespace DroidKaigi2017.Service
 			{
 				try
 				{
-					var client = new MobileServiceClient(MobileAppUrl);
-
-					var table = client.GetTable("topics");
+					var table = _client.GetTable("topics");
 					var list = (await table.ReadAsync("")).ToObject<List<TopicItem>>();
 					var topics = list
 						.Select(x => new TopicModel()

@@ -14,18 +14,17 @@ namespace DroidKaigi2017.Service
 {
     class AzureEasyTableSpeakerRepository : ISpeakerRepository
     {
+	    private readonly MobileServiceClient _client;
 	    private readonly IKeyValueStore _keyValueStore;
 	    private bool _isDirty = true;
 	    private readonly ReactiveProperty<List<SpeakerModel>> _speakerProperty = new ReactiveProperty<List<SpeakerModel>>(raiseEventScheduler: TaskPoolScheduler.Default);
 
-	    public AzureEasyTableSpeakerRepository(string mobileAppUrl, IKeyValueStore keyValueStore)
+	    public AzureEasyTableSpeakerRepository(IKeyValueStore keyValueStore, MobileServiceClient client)
 	    {
-		    this.MobileAppUrl = mobileAppUrl;
 		    _keyValueStore = keyValueStore;
+		    _client = client;
 		    SpealersObservable = _speakerProperty.ToReadOnlyReactiveProperty(eventScheduler: TaskPoolScheduler.Default);
 	    }
-
-	    public string MobileAppUrl { get; private set; }
 		public ReadOnlyReactiveProperty<List<SpeakerModel>> SpealersObservable { get; }
 	    public async Task LoadAsync()
 	    {
@@ -33,9 +32,7 @@ namespace DroidKaigi2017.Service
 			{
 				try
 				{
-					var client = new MobileServiceClient(MobileAppUrl);
-
-					var table = client.GetTable("speakers");
+					var table = _client.GetTable("speakers");
 					var list = (await table.ReadAsync("")).ToObject<List<SpeakerItem>>();
 					var topics = list
 						.Select(x => new SpeakerModel()

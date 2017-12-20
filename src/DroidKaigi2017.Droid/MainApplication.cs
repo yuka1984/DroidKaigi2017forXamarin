@@ -59,7 +59,7 @@ namespace DroidKaigi2017.Droid
 			builder.RegisterType<AzureEasyTableRoomRepository>().As<IRoomRepository>().SingleInstance();
 			builder.RegisterType<AzureEasyTableTopicRepository>().As<ITopicRepository>().SingleInstance();
 			builder.RegisterType<AzureEasyTableSpeakerRepository>().As<ISpeakerRepository>().SingleInstance();
-			builder.RegisterType<AzureEasyTableSessionRepository>().As<IMySessionRepository>().SingleInstance();
+			builder.RegisterType<MySessionRepository>().As<IMySessionRepository>().SingleInstance();
 			builder.RegisterType<AzureEasyTableFeedbackRepository>().As<IFeedbackRepository>().SingleInstance();
 
 			builder.RegisterType<SessionService>().As<ISessionService>().SingleInstance();

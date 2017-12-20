@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using DroidKaigi2017.Interface.Models;
 using DroidKaigi2017.Interface.Repository;
 using DroidKaigi2017.Interface.Tools;
-using Microsoft.Azure.Mobile;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using Newtonsoft.Json;

@@ -8,7 +8,6 @@ using DroidKaigi2017.Interface.Models;
 using DroidKaigi2017.Interface.Repository;
 using DroidKaigi2017.Interface.Tools;
 using Microsoft.WindowsAzure.MobileServices;
-using Nyanto.Core;
 using Reactive.Bindings;
 
 namespace DroidKaigi2017.Service

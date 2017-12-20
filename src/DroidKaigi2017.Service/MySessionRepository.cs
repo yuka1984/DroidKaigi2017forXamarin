@@ -43,7 +43,7 @@ namespace DroidKaigi2017.Service
 	    {
 		    return Task.Run(() =>
 		    {
-				if(_mySessionModels.Any(x=> x.SessionId == sessionId))
+				if(_mySessionModels.Any(x=> x?.SessionId == sessionId))
 					return;
 
 				_mySessionModels.Add(new MySessionModel
@@ -60,7 +60,7 @@ namespace DroidKaigi2017.Service
 	    {
 			return Task.Run(() =>
 			{
-				var session = _mySessionModels.FirstOrDefault(x => x.SessionId == sessionId);
+				var session = _mySessionModels.FirstOrDefault(x => x?.SessionId == sessionId);
 				if (session != null)
 				{
 					_mySessionModels.Remove(session);

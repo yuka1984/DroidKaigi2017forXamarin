@@ -77,7 +77,7 @@ namespace DroidKaigi2017.Services
 					_roomRepository.LoadAsync(),
 					_topicRepository.LoadAsync());
 
-				RoomCount = _roomRepository.RoomsObservable.Value.Length;
+				RoomCount = _roomRepository.RoomsObservable.Value?.Length ?? 0;
 			}
 			finally
 			{

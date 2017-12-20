@@ -5,7 +5,6 @@ using System.Reactive.Concurrency;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using DroidKaigi2017.Droid.Mocks;
 using DroidKaigi2017.Interface.Models;
 using DroidKaigi2017.Interface.Repository;
 using DroidKaigi2017.Interface.Tools;
